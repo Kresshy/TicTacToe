@@ -9,8 +9,17 @@
     tools:context=".MainActivity" >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/main_textview"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
+
+    <Button
+        android:id="@+id/main_show_highscores"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_textview"
+        android:paddingTop="10dp"
+        android:text="@string/highscores_title" />
 
 </RelativeLayout>

@@ -1,5 +1,7 @@
 package hu.medtech.tictactoe;
 
+import hu.medtech.tictactoe.datastorage.ScoreDbLoader;
+
 import java.util.UUID;
 
 import android.app.Activity;
@@ -15,6 +17,9 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -29,19 +34,22 @@ public class MainActivity extends Activity {
 	public static final int MESSAGE_TOAST = 1;
 	public static final int MESSAGE_DEVICE_NAME = 2;
 	public static final int MESSAGE_READ = 3;
-	
+
 	public static String TOAST;
 
 	private static BluetoothAdapter mBluetoothAdapter;
 	private static BluetoothDevice mBluetoothDevice;
 	private static byte[] datastream;
 
-	private static final UUID UUID_SECURE = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	private static final UUID UUID_SECURE = UUID
+			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 	ConnectionService mConnectionService;
 
 	public static String mConnectedDeviceName;
 	public static String DEVICE_NAME;
+
+	Button highscores;
 
 	private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
 
@@ -49,7 +57,8 @@ public class MainActivity extends Activity {
 		public void onReceive(Context context, Intent intent) {
 			if (D) {
 				if (mBluetoothAdapter.getState() == BluetoothAdapter.STATE_TURNING_ON) {
-					Log.v(TAG, "RECEIVED BLUETOOTH STATE CHANGE: STATE_TURNING_ON");
+					Log.v(TAG,
+							"RECEIVED BLUETOOTH STATE CHANGE: STATE_TURNING_ON");
 				}
 
 				if (mBluetoothAdapter.getState() == BluetoothAdapter.STATE_ON) {
@@ -69,7 +78,8 @@ public class MainActivity extends Activity {
 		super.onStart();
 		Log.v(TAG, "ONSTART");
 		if (!mBluetoothAdapter.isEnabled()) {
-			Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			Intent enableIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 		}
 	}
@@ -85,17 +95,36 @@ public class MainActivity extends Activity {
 
 		// If the adapter is null, then Bluetooth is not supported
 		if (mBluetoothAdapter == null) {
-			Toast.makeText(this, "Bluetooth is not supported", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Bluetooth is not supported",
+					Toast.LENGTH_LONG).show();
 			finish();
 			return;
 		}
 
-		registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
+		registerReceiver(bluetoothReceiver, new IntentFilter(
+				BluetoothAdapter.ACTION_STATE_CHANGED));
 
 		if (mBluetoothAdapter.isEnabled()) {
 			mConnectionService = new ConnectionService(mHandler);
 			mConnectionService.start();
 		}
+
+		// proba ertek beirasa a tablaba
+		ScoreDbLoader dbLoader = new ScoreDbLoader(getApplicationContext());
+		dbLoader.open();
+		dbLoader.createScore(new Score("Sanyi", "00:50", "15"));
+		dbLoader.createScore(new Score("S", "0:0", "1"));
+		dbLoader.close();
+
+		highscores = (Button) findViewById(R.id.main_show_highscores);
+		highscores.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,
+						HighScoreActivity.class);
+				startActivity(intent);
+			}
+		});
 
 	}
 
@@ -116,7 +145,8 @@ public class MainActivity extends Activity {
 			case MESSAGE_TOAST:
 
 				String message = (String) msg.obj;
-				Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), message,
+						Toast.LENGTH_LONG).show();
 
 				break;
 
@@ -142,13 +172,16 @@ public class MainActivity extends Activity {
 		case REQUEST_CONNECT:
 
 			if (resultCode == RESULT_CANCELED) {
-				Toast.makeText(getApplicationContext(), "No device selected", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "No device selected",
+						Toast.LENGTH_LONG).show();
 				break;
 			}
 
-			String address = data.getStringExtra(DeviceConnect.EXTRA_DEVICE_ADDRESS);
+			String address = data
+					.getStringExtra(DeviceConnect.EXTRA_DEVICE_ADDRESS);
 			mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);
-			Log.i(TAG, mBluetoothDevice.getName() + mBluetoothDevice.getAddress());
+			Log.i(TAG,
+					mBluetoothDevice.getName() + mBluetoothDevice.getAddress());
 
 			mConnectionService.connect(mBluetoothDevice);
 			break;
@@ -156,12 +189,14 @@ public class MainActivity extends Activity {
 		case REQUEST_ENABLE_BT:
 
 			if (resultCode == RESULT_CANCELED) {
-				Toast.makeText(getApplicationContext(), "Can't enable bluetooth", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(),
+						"Can't enable bluetooth", Toast.LENGTH_LONG).show();
 				break;
 			}
 
 			if (resultCode == RESULT_OK) {
-				Toast.makeText(getApplicationContext(), "Bluetooth is enabled", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "Bluetooth is enabled",
+						Toast.LENGTH_LONG).show();
 				break;
 			}
 
@@ -174,13 +209,16 @@ public class MainActivity extends Activity {
 
 		switch (item.getItemId()) {
 		case R.id.menu_connect:
-			Intent sidusConnect = new Intent(getApplicationContext(), DeviceConnect.class);
+			Intent sidusConnect = new Intent(getApplicationContext(),
+					DeviceConnect.class);
 			startActivityForResult(sidusConnect, REQUEST_CONNECT);
 			break;
 
 		case R.id.menu_discoverable:
-			Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-			discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+			Intent discoverableIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+			discoverableIntent.putExtra(
+					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 			startActivity(discoverableIntent);
 			break;
 
