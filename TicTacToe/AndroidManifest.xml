@@ -37,12 +37,12 @@
         <activity
             android:name="hu.medtech.tictactoe.HighScoreActivity"
             android:screenOrientation="sensorPortrait"
-            android:theme="@style/FullHeightDialog" >
- <!-- own style -->
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name="hu.medtech.tictactoe.OptionsActivity"
-            android:label="@string/title_activity_options" 
+            android:label="@string/title_activity_options"
+            android:screenOrientation="sensorPortrait"  
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
