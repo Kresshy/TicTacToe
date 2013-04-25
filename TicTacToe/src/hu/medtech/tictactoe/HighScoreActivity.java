@@ -34,9 +34,9 @@ public class HighScoreActivity extends Activity {
 
 		// ha üres a tábla
 		if (c.getCount() == 0) {
-			noitemTV.setText("Nincsenek eredmények!");
+			noitemTV.setText("There are no results yet!");
 		} else {
-			noitemTV.setText("Név     Pont     Idõ");
+			noitemTV.setText("(Name,Score,Time)");
 		}
 
 		// a listanak beallitjuk az adaptert
