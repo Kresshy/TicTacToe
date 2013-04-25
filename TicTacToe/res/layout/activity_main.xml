@@ -22,4 +22,12 @@
         android:paddingTop="10dp"
         android:text="@string/highscores_title" />
 
+    <Button
+        android:id="@+id/main_send_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_show_highscores"
+        android:paddingTop="10dp"
+        android:text="@string/send_message" />
+
 </RelativeLayout>

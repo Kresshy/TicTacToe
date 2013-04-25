@@ -311,11 +311,7 @@ public class ConnectionService {
 
 		public void run() {
 			byte[] buffer = new byte[1024]; // buffer store for the stream
-			// byte[] data = new byte[16384];
-			// StringBuilder info = new StringBuilder("RSP: ");
-
-			// ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
+			
 			int bytes = 0; // bytes returned from read()
 
 			// Keep listening to the InputStream until an exception occurs
@@ -324,10 +320,6 @@ public class ConnectionService {
 
 					// Read from the InputStream
 					bytes = mmInStream.read(buffer);
-
-					// String logHexString = SidusMain.byte2HexStr(buffer,
-					// bytes);
-					// Log.i(TAG, logHexString);
 
 					// Send the obtained bytes to the UI activity
 					mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes, -1, buffer).sendToTarget();

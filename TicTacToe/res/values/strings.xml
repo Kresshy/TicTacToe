@@ -7,5 +7,6 @@
     
     <string name="highscores_title">Legjobb eredmények:</string>
     <string name="highscores_btn_label">Bezár</string>
+    <string name="send_message">send message</string>
 
 </resources>

@@ -2,6 +2,12 @@ package hu.medtech.tictactoe;
 
 import hu.medtech.tictactoe.datastorage.ScoreDbLoader;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.util.UUID;
 
 import android.app.Activity;
@@ -46,6 +52,49 @@ public class MainActivity extends Activity {
 	public static String DEVICE_NAME;
 
 	Button highscores;
+	Button send_message;
+
+	OnClickListener onClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+
+			switch (v.getId()) {
+
+			case R.id.main_show_highscores:
+
+				Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
+				startActivity(intent);
+
+				break;
+
+			case R.id.main_send_message:
+
+				if (mBluetoothAdapter.isEnabled() && ((GlobalVariables) getApplication()).getConnectionService() != null) {
+					try {
+
+						MessageContainer messageContainer = new MessageContainer();
+						int coords[] = { 0, 0 };
+						messageContainer.setCoords(coords);
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						ObjectOutputStream oos = new ObjectOutputStream(baos);
+						oos.writeObject(messageContainer);
+						((GlobalVariables) getApplication()).getConnectionService().write(baos.toByteArray());
+
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				break;
+
+			default:
+				break;
+			}
+
+		}
+	};
 
 	private BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
 
@@ -66,6 +115,7 @@ public class MainActivity extends Activity {
 				((GlobalVariables) getApplication()).getConnectionService().start();
 			}
 		}
+
 	};
 
 	@Override
@@ -76,6 +126,7 @@ public class MainActivity extends Activity {
 			Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 		}
+
 	}
 
 	@Override
@@ -109,14 +160,10 @@ public class MainActivity extends Activity {
 		dbLoader.close();
 
 		highscores = (Button) findViewById(R.id.main_show_highscores);
-		highscores.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
-				startActivity(intent);
-			}
-		});
+		highscores.setOnClickListener(onClickListener);
 
+		send_message = (Button) findViewById(R.id.main_send_message);
+		send_message.setOnClickListener(onClickListener);
 	}
 
 	@Override
@@ -145,13 +192,28 @@ public class MainActivity extends Activity {
 
 			case MESSAGE_READ:
 
-				byte[] readBuf = (byte[]) msg.obj;
-				int paramInt = msg.arg1;
+				try {
 
-				// String hexString = new String(byte2HexStr(readBuf,
-				// paramInt));
-				// answer.setText(answer.getText() + hexString + "\n");
+					byte[] readBuf = (byte[]) msg.obj;
+					int paramInt = msg.arg1;
+					ByteArrayInputStream bais = new ByteArrayInputStream(readBuf);
+					ObjectInputStream ois;
+					ois = new ObjectInputStream(bais);
+					MessageContainer readedMessage = (MessageContainer) ois.readObject();
 
+					Toast.makeText(getApplicationContext(),
+							"Content: " + readedMessage.getMessage() + " " + readedMessage.getCoords()[0] + " " + readedMessage.getCoords()[1],
+							Toast.LENGTH_LONG).show();
+				} catch (StreamCorruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 
 			}
