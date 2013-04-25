@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
 	ImageView multiplayer;
 	ImageView options;
 	ImageView exit;
+	ImageView highscore;
 
 	OnClickListener onClickListener = new OnClickListener() {
 
@@ -64,13 +65,6 @@ public class MainActivity extends Activity {
 			switch (v.getId()) {
 
 			case R.id.main_multiplayer:
-
-				Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
-				startActivity(intent);
-
-				break;
-
-			case R.id.main_options:
 
 				if (mBluetoothAdapter.isEnabled() && ((GlobalVariables) getApplication()).getConnectionService() != null) {
 					try {
@@ -90,9 +84,23 @@ public class MainActivity extends Activity {
 				}
 				
 				break;
-				
+
+			case R.id.main_highscore:
+
+				Intent highscore = new Intent(MainActivity.this, HighScoreActivity.class);
+				startActivity(highscore);
+
+				break;
+
+			case R.id.main_options:
+
+				Intent options = new Intent(MainActivity.this, OptionsActivity.class);
+				startActivity(options);
+
+				break;
+
 			case R.id.main_exit:
-				
+
 				finish();
 
 				break;
@@ -168,13 +176,16 @@ public class MainActivity extends Activity {
 		dbLoader.close();
 
 		multiplayer = (ImageView) findViewById(R.id.main_multiplayer);
+		highscore = (ImageView) findViewById(R.id.main_highscore);
 		options = (ImageView) findViewById(R.id.main_options);
 		exit = (ImageView) findViewById(R.id.main_exit);
+
 		
 		multiplayer.setOnClickListener(onClickListener);
+		highscore.setOnClickListener(onClickListener);
 		options.setOnClickListener(onClickListener);
 		exit.setOnClickListener(onClickListener);
-		
+
 	}
 
 	@Override
