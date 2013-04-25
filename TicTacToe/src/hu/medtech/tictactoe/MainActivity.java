@@ -44,8 +44,6 @@ public class MainActivity extends Activity {
 	private static final UUID UUID_SECURE = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-	ConnectionService mConnectionService;
-
 	public static String mConnectedDeviceName;
 	public static String DEVICE_NAME;
 
@@ -67,8 +65,8 @@ public class MainActivity extends Activity {
 			}
 
 			if (mBluetoothAdapter.isEnabled()) {
-				mConnectionService = new ConnectionService(mHandler);
-				mConnectionService.start();
+				((GlobalVariables) getApplication()).setConnectionService(new ConnectionService(mHandler));
+				((GlobalVariables) getApplication()).getConnectionService().start();
 			}
 		}
 	};
@@ -105,8 +103,8 @@ public class MainActivity extends Activity {
 				BluetoothAdapter.ACTION_STATE_CHANGED));
 
 		if (mBluetoothAdapter.isEnabled()) {
-			mConnectionService = new ConnectionService(mHandler);
-			mConnectionService.start();
+			((GlobalVariables) getApplication()).setConnectionService(new ConnectionService(mHandler));
+			((GlobalVariables) getApplication()).getConnectionService().start();
 		}
 
 		// proba ertek beirasa a tablaba
@@ -131,7 +129,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mConnectionService.stop();
+		((GlobalVariables) getApplication()).getConnectionService().stop();
 		unregisterReceiver(bluetoothReceiver);
 	}
 
@@ -183,7 +181,8 @@ public class MainActivity extends Activity {
 			Log.i(TAG,
 					mBluetoothDevice.getName() + mBluetoothDevice.getAddress());
 
-			mConnectionService.connect(mBluetoothDevice);
+			((GlobalVariables) getApplication()).getConnectionService().connect(mBluetoothDevice);
+			
 			break;
 
 		case REQUEST_ENABLE_BT:
