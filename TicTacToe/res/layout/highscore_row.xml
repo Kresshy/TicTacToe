@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:gravity="center"
-        android:text="Név" />
+        android:text="Name" />
 
     <TextView
         android:id="@+id/highscore_score"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:gravity="center"
-        android:text="Pont"
+        android:text="Score"
         android:textColor="#FF0000" />
 
     <TextView
@@ -28,6 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:gravity="center"
-        android:text="Idő" />
+        android:text="Time" />
 
 </LinearLayout>
