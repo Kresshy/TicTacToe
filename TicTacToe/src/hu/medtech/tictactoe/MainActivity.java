@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -51,8 +52,9 @@ public class MainActivity extends Activity {
 	public static String mConnectedDeviceName;
 	public static String DEVICE_NAME;
 
-	Button highscores;
-	Button send_message;
+	ImageView multiplayer;
+	ImageView options;
+	ImageView exit;
 
 	OnClickListener onClickListener = new OnClickListener() {
 
@@ -61,14 +63,14 @@ public class MainActivity extends Activity {
 
 			switch (v.getId()) {
 
-			case R.id.main_show_highscores:
+			case R.id.main_multiplayer:
 
 				Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
 				startActivity(intent);
 
 				break;
 
-			case R.id.main_send_message:
+			case R.id.main_options:
 
 				if (mBluetoothAdapter.isEnabled() && ((GlobalVariables) getApplication()).getConnectionService() != null) {
 					try {
@@ -86,6 +88,10 @@ public class MainActivity extends Activity {
 						e.printStackTrace();
 					}
 				}
+				
+			case R.id.main_exit:
+				
+				finish();
 
 				break;
 
@@ -159,11 +165,14 @@ public class MainActivity extends Activity {
 		dbLoader.createScore(new Score("S", "0:0", "1"));
 		dbLoader.close();
 
-		highscores = (Button) findViewById(R.id.main_show_highscores);
-		highscores.setOnClickListener(onClickListener);
-
-		send_message = (Button) findViewById(R.id.main_send_message);
-		send_message.setOnClickListener(onClickListener);
+		multiplayer = (ImageView) findViewById(R.id.main_multiplayer);
+		options = (ImageView) findViewById(R.id.main_options);
+		exit = (ImageView) findViewById(R.id.main_exit);
+		
+		multiplayer.setOnClickListener(onClickListener);
+		options.setOnClickListener(onClickListener);
+		exit.setOnClickListener(onClickListener);
+		
 	}
 
 	@Override

@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="hu.medtech.tictactoe.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="sensorPortrait" 
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,11 +30,13 @@
         </activity>
         <activity
             android:name="hu.medtech.tictactoe.DeviceConnect"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name=".HighScoreActivity"
-            android:theme="@style/FullHeightDialog" > <!-- own style -->
+            android:theme="@style/FullHeightDialog" 
+            android:screenOrientation="sensorPortrait" > <!-- own style -->
         </activity>
     </application>
 
