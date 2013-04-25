@@ -13,38 +13,46 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.6" />
+        android:layout_weight="0.55" />
 
     <ImageView
         android:id="@+id/main_multiplayer"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="0.09"
+        android:layout_weight="0.1"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/multiplayer" />
 
     <ImageView
         android:id="@+id/main_highscore"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="0.09"
+        android:layout_weight="0.1"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/highscore" />
 
     <ImageView
         android:id="@+id/main_options"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="0.09"
+        android:layout_weight="0.1"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/options" />
 
     <ImageView
         android:id="@+id/main_exit"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="0.09"
+        android:layout_weight="0.1"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/exit" />
 
 </LinearLayout>
