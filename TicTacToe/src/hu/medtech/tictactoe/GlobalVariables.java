@@ -4,7 +4,7 @@ import android.app.Application;
 
 public class GlobalVariables extends Application {
 
-	ConnectionService mConnectionService;
+	ConnectionService mConnectionService = null;
 	
 	@Override
 	public void onCreate() {
