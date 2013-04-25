@@ -89,6 +89,8 @@ public class MainActivity extends Activity {
 					}
 				}
 				
+				break;
+				
 			case R.id.main_exit:
 				
 				finish();
@@ -182,7 +184,6 @@ public class MainActivity extends Activity {
 			((GlobalVariables) getApplication()).getConnectionService().stop();
 			unregisterReceiver(bluetoothReceiver);
 		}
-		unregisterReceiver(bluetoothReceiver);
 	}
 
 	private final Handler mHandler = new Handler() {
