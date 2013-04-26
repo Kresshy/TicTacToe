@@ -58,8 +58,10 @@ public class DeviceConnect extends Activity {
 
 		// Initialize array adapters. One for already paired devices and
 		// one for newly discovered devices
-		mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
-		mNewDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
+		mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this,
+				R.layout.device_name);
+		mNewDevicesArrayAdapter = new ArrayAdapter<String>(this,
+				R.layout.device_name);
 
 		// Find and set up the ListView for paired devices
 		ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
@@ -89,7 +91,8 @@ public class DeviceConnect extends Activity {
 		if (pairedDevices.size() > 0) {
 			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
 			for (BluetoothDevice device : pairedDevices) {
-				mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+				mPairedDevicesArrayAdapter.add(device.getName() + "\n"
+						+ device.getAddress());
 			}
 		} else {
 			String noDevices = "None paired";
@@ -164,14 +167,17 @@ public class DeviceConnect extends Activity {
 			// When discovery finds a device
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 				// Get the BluetoothDevice object from the Intent
-				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				BluetoothDevice device = intent
+						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 				// If it's already paired, skip it, because it's been listed
 				// already
 				if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-					mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+					mNewDevicesArrayAdapter.add(device.getName() + "\n"
+							+ device.getAddress());
 				}
 				// When discovery is finished, change the Activity title
-			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED
+					.equals(action)) {
 				setProgressBarIndeterminateVisibility(false);
 				setTitle("Select Device");
 				if (mNewDevicesArrayAdapter.getCount() == 0) {

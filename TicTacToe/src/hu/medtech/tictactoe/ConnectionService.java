@@ -29,7 +29,8 @@ public class ConnectionService {
 	private Handler mHandler;
 
 	private static String NAME = "SIDUS";
-	private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	private static final UUID MY_UUID = UUID
+			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 	public ConnectionService(Handler handler) {
 
@@ -101,7 +102,8 @@ public class ConnectionService {
 	public synchronized void connected(BluetoothSocket socket) {
 		if (D)
 			Log.d(TAG, "connected");
-		mHandler.obtainMessage(MainActivity.MESSAGE_TOAST, -1, -1, "Connected").sendToTarget();
+		mHandler.obtainMessage(MainActivity.MESSAGE_TOAST, -1, -1, "Connected")
+				.sendToTarget();
 		// Cancel the thread that completed the connection
 		// if (mConnectThread != null) {
 		// mConnectThread.cancel();
@@ -183,7 +185,8 @@ public class ConnectionService {
 			try {
 				// MY_UUID is the app's UUID string, also used by the client
 				// code
-				tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
+				tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(
+						NAME, MY_UUID);
 			} catch (IOException e) {
 				Log.e(TAG, "Accept Thread " + e.getMessage());
 			}
@@ -208,7 +211,6 @@ public class ConnectionService {
 					try {
 						mmServerSocket.close();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					break;
@@ -322,14 +324,14 @@ public class ConnectionService {
 					bytes = mmInStream.read(buffer);
 
 					// Send the obtained bytes to the UI activity
-					mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+					mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes,
+							-1, buffer).sendToTarget();
 
 					try {
 
 						Thread.sleep(30);
 
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
