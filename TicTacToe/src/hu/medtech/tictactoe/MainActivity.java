@@ -11,10 +11,12 @@ import java.io.StreamCorruptedException;
 import java.util.UUID;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -57,6 +59,8 @@ public class MainActivity extends Activity {
 	ImageView exit;
 	ImageView highscore;
 
+	AlertDialog alert;
+
 	OnClickListener onClickListener = new OnClickListener() {
 
 		@Override
@@ -89,25 +93,19 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.main_highscore:
-
 				Intent highscore = new Intent(MainActivity.this,
 						HighScoreActivity.class);
 				startActivity(highscore);
-
 				break;
 
 			case R.id.main_options:
-
 				Intent options = new Intent(MainActivity.this,
 						OptionsActivity.class);
 				startActivity(options);
-
 				break;
 
 			case R.id.main_exit:
-
-				finish();
-
+				alert.show();
 				break;
 
 			default:
@@ -179,6 +177,30 @@ public class MainActivity extends Activity {
 					.setConnectionService(new ConnectionService(mHandler));
 			((GlobalVariables) getApplication()).getConnectionService().start();
 		}
+
+		// are you sure dialog
+		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case DialogInterface.BUTTON_POSITIVE:
+					finish();
+					break;
+
+				case DialogInterface.BUTTON_NEGATIVE:
+					dialog.cancel();
+					break;
+				}
+			}
+		};
+
+		AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+		alt_bld.setMessage("Are you sure to want to quit?")
+				.setCancelable(false)
+				.setPositiveButton("Yes", dialogClickListener)
+				.setNegativeButton("No", dialogClickListener);
+		alert = alt_bld.create();
+		alert.setTitle("Are you sure?");
 
 		// proba ertek beirasa a tablaba
 		ScoreDbLoader dbLoader = new ScoreDbLoader(getApplicationContext());
@@ -324,6 +346,12 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public void onBackPressed() {
+		// vissza gomb eseten kerdes
+		alert.show();
 	}
 
 }
