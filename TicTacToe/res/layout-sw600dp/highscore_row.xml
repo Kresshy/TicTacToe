@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:gravity="center"
-        android:text="Name" />
+        android:text="Name"
+        android:textColor="#414141"
+        android:textSize="30dp" />
 
     <TextView
         android:id="@+id/highscore_score"
@@ -20,7 +22,8 @@
         android:layout_weight="0.33"
         android:gravity="center"
         android:text="Score"
-        android:textColor="#FF0000" />
+        android:textColor="#FF0000"
+        android:textSize="30dp" />
 
     <TextView
         android:id="@+id/highscore_time"
@@ -28,6 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:gravity="center"
-        android:text="Time" />
+        android:text="Time"
+        android:textColor="#414141"
+        android:textSize="30dp" />
 
 </LinearLayout>

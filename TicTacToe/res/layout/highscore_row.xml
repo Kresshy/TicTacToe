@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:gravity="center"
-        android:text="Name" />
+        android:text="Name"
+        android:textColor="#414141" />
 
     <TextView
         android:id="@+id/highscore_score"
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
         android:gravity="center"
-        android:text="Time" />
+        android:text="Time"
+        android:textColor="#414141" />
 
 </LinearLayout>
