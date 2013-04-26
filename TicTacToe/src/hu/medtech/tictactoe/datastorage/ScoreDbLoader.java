@@ -36,8 +36,7 @@ public class ScoreDbLoader {
 		values.put(DatabaseConstants.ScoreDB.KEY_TIME, score.getIdo());
 		values.put(DatabaseConstants.ScoreDB.KEY_PONT, score.getPont());
 
-		return mDb.insert(DatabaseConstants.ScoreDB.DATABASE_TABLE, null,
-				values);
+		return mDb.insert(DatabaseConstants.ScoreDB.DATABASE_TABLE, null, values);
 	}
 
 	// osszes elem torlese
@@ -47,8 +46,7 @@ public class ScoreDbLoader {
 
 	// egy elem torlese
 	public boolean deleteScore(long rowId) {
-		return mDb.delete(DatabaseConstants.ScoreDB.DATABASE_TABLE,
-				DatabaseConstants.ScoreDB.KEY_ROWID + "=" + rowId, null) > 0;
+		return mDb.delete(DatabaseConstants.ScoreDB.DATABASE_TABLE, DatabaseConstants.ScoreDB.KEY_ROWID + "=" + rowId, null) > 0;
 	}
 
 	// frissites
@@ -58,30 +56,21 @@ public class ScoreDbLoader {
 		values.put(DatabaseConstants.ScoreDB.KEY_TIME, newScore.getIdo());
 		values.put(DatabaseConstants.ScoreDB.KEY_PONT, newScore.getPont());
 
-		return mDb.update(DatabaseConstants.ScoreDB.DATABASE_TABLE, values,
-				DatabaseConstants.ScoreDB.KEY_ROWID + "=" + rowId, null) > 0;
+		return mDb.update(DatabaseConstants.ScoreDB.DATABASE_TABLE, values, DatabaseConstants.ScoreDB.KEY_ROWID + "=" + rowId, null) > 0;
 	}
 
 	// score lekerese cursor alapjan
 	public static Score getScoreByCursor(Cursor c) {
-		return new Score(c.getString(c
-				.getColumnIndex(DatabaseConstants.ScoreDB.KEY_NAME)),
-				c.getString(c
-						.getColumnIndex(DatabaseConstants.ScoreDB.KEY_TIME)),
-				c.getString(c
-						.getColumnIndex(DatabaseConstants.ScoreDB.KEY_PONT)));
+		return new Score(c.getString(c.getColumnIndex(DatabaseConstants.ScoreDB.KEY_NAME)), c.getString(c
+				.getColumnIndex(DatabaseConstants.ScoreDB.KEY_TIME)), c.getString(c.getColumnIndex(DatabaseConstants.ScoreDB.KEY_PONT)));
 	}
 
 	// egy score lekerese
 	public Score fetchScore(long rowId) {
-		Cursor c = mDb.query(DatabaseConstants.ScoreDB.DATABASE_TABLE,
-				new String[] { DatabaseConstants.ScoreDB.KEY_ROWID,
-						DatabaseConstants.ScoreDB.KEY_NAME,
-						DatabaseConstants.ScoreDB.KEY_TIME,
-						DatabaseConstants.ScoreDB.KEY_PONT
+		Cursor c = mDb.query(DatabaseConstants.ScoreDB.DATABASE_TABLE, new String[] { DatabaseConstants.ScoreDB.KEY_ROWID,
+				DatabaseConstants.ScoreDB.KEY_NAME, DatabaseConstants.ScoreDB.KEY_TIME, DatabaseConstants.ScoreDB.KEY_PONT
 
-				}, DatabaseConstants.ScoreDB.KEY_ROWID + "=" + rowId, null,
-				null, null, DatabaseConstants.ScoreDB.KEY_NAME);
+		}, DatabaseConstants.ScoreDB.KEY_ROWID + "=" + rowId, null, null, null, DatabaseConstants.ScoreDB.KEY_NAME);
 		if (c.moveToFirst())
 			return getScoreByCursor(c);
 		return null;
@@ -89,12 +78,9 @@ public class ScoreDbLoader {
 
 	// minden score lekerese
 	public Cursor fetchAll() {
-		return mDb.query(DatabaseConstants.ScoreDB.DATABASE_TABLE,
-				new String[] { DatabaseConstants.ScoreDB.KEY_ROWID,
-						DatabaseConstants.ScoreDB.KEY_NAME,
-						DatabaseConstants.ScoreDB.KEY_TIME,
-						DatabaseConstants.ScoreDB.KEY_PONT }, null, null, null,
-				null, DatabaseConstants.ScoreDB.KEY_PONT + " DESC"); // csokkeno
-																		// sorrend
+		return mDb.query(DatabaseConstants.ScoreDB.DATABASE_TABLE, new String[] { DatabaseConstants.ScoreDB.KEY_ROWID,
+				DatabaseConstants.ScoreDB.KEY_NAME, DatabaseConstants.ScoreDB.KEY_TIME, DatabaseConstants.ScoreDB.KEY_PONT }, null, null, null, null,
+				DatabaseConstants.ScoreDB.KEY_PONT + " DESC"); // csokkeno
+																// sorrend
 	}
 }

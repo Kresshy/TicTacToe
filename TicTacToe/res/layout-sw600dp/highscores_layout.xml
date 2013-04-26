@@ -24,12 +24,15 @@
 
     <ListView
         android:id="@+id/list"
-        android:layout_marginTop="75dp"
-        android:layout_marginLeft="15dp"
-        android:layout_width="270dp"
-        android:layout_height="330dp" 
-        android:fadingEdge="none" >
-        
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="45dp"
+        android:layout_width="500dp"
+        android:layout_height="603dp" 
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:fadingEdge="none"
+        android:isScrollContainer="false"
+        android:clickable="false">
     </ListView>
 
 <!--     <TextView -->

@@ -38,7 +38,7 @@ public class ConnectionService {
 		mBluetoothServerSocket = null;
 		mBluetoothSocket = null;
 		mHandler = handler;
-		
+
 	}
 
 	public synchronized void start() {
@@ -311,7 +311,7 @@ public class ConnectionService {
 
 		public void run() {
 			byte[] buffer = new byte[1024]; // buffer store for the stream
-			
+
 			int bytes = 0; // bytes returned from read()
 
 			// Keep listening to the InputStream until an exception occurs

@@ -25,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -82,7 +81,7 @@ public class MainActivity extends Activity {
 						e.printStackTrace();
 					}
 				}
-				
+
 				break;
 
 			case R.id.main_highscore:
@@ -180,7 +179,6 @@ public class MainActivity extends Activity {
 		options = (ImageView) findViewById(R.id.main_options);
 		exit = (ImageView) findViewById(R.id.main_exit);
 
-		
 		multiplayer.setOnClickListener(onClickListener);
 		highscore.setOnClickListener(onClickListener);
 		options.setOnClickListener(onClickListener);
