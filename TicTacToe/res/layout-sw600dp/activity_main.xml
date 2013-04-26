@@ -23,7 +23,7 @@
         android:layout_weight="0.15"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/multiplayer" />
+        android:src="@drawable/multiplayer_btn_selector" />
 
     <ImageView
         android:id="@+id/main_highscore"
@@ -33,7 +33,7 @@
         android:layout_weight="0.15"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/highscore" />
+        android:src="@drawable/highscore_btn_selector" />
 
     <ImageView
         android:id="@+id/main_options"
@@ -43,7 +43,7 @@
         android:layout_weight="0.15"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/options" />
+        android:src="@drawable/options_btn_selector" />
 
     <ImageView
         android:id="@+id/main_exit"
@@ -53,6 +53,6 @@
         android:layout_weight="0.15"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/exit" />
+        android:src="@drawable/exit_btn_selector" />
 
 </LinearLayout>
