@@ -105,7 +105,12 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.main_exit:
-				alert.show();
+				//TODO: alert.show();
+				////////EZ CSAK DEBUG CELRA KELL////////
+				Intent game = new Intent(MainActivity.this,
+						GameActivity.class);
+				startActivity(game);
+				///////////////////////////////////////
 				break;
 
 			default:
