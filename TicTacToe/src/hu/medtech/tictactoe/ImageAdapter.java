@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.YuvImage;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class ImageAdapter extends BaseAdapter {
 
 	private Context mContext;
 	private List<Integer> mThumbIds = new ArrayList<Integer>();
+	private int[][] gameTableX = new int[10][14];
+	private int[][] gameTableO = new int[10][14];
 
 	public ImageAdapter(Context c) {
 		mContext = c;
@@ -23,25 +27,172 @@ public class ImageAdapter extends BaseAdapter {
 	}
 
 	public void addElement(MessageContainer m, int pos) {
+		int x_pos = pos % 10;
+		int y_pos = pos / 10;
+
 		switch (m.getMessage()) {
 		case MessageContainer.MESSAGE_SYMBOL_X:
 			mThumbIds.set(pos, R.drawable.field_x);
+			gameTableX[x_pos][y_pos] = 1;
 			break;
 		case MessageContainer.MESSAGE_SYMBOL_O:
-			mThumbIds.set(pos, R.drawable.field_y);
+			mThumbIds.set(pos, R.drawable.field_o);
+			gameTableO[x_pos][y_pos] = 1;
 			break;
+		}
+
+		checkWinO();
+		checkWinX();
+
+	}
+
+	public void checkWinO() {
+		// in a row
+		for (int j = 0; j < 14; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10; i++) {
+				if (gameTableO[i][j] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		// in a column
+		for (int i = 0; i < 10; i++) {
+			int sum = 0;
+			for (int j = 0; j < 14; j++) {
+				if (gameTableO[i][j] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		// diagonal angle:\
+		for (int j = 0; j < 9; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10 - j; i++) {
+				if (gameTableO[i + j][i] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		for (int j = 1; j < 5; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10; i++) {
+
+				if (gameTableO[i][i + j] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		for (int j = 5, k = 9; j < 13; j++, k--) {
+			int sum = 0;
+			for (int i = 0; i < k; i++) {
+				if (gameTableO[i][j + i] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+
+			}
+
 		}
 
 	}
 
+	public void checkWinX() {
+		// in a row
+		for (int j = 0; j < 14; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10; i++) {
+				if (gameTableX[i][j] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		// in a column
+		for (int i = 0; i < 10; i++) {
+			int sum = 0;
+			for (int j = 0; j < 14; j++) {
+				if (gameTableX[i][j] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+	}
+
+	public int getElement(int pos) {
+		return mThumbIds.get(pos);
+	}
+
+	@Override
 	public int getCount() {
 		return mThumbIds.size();
 	}
 
+	@Override
 	public Object getItem(int position) {
 		return null;
 	}
 
+	@Override
 	public long getItemId(int position) {
 		return 0;
 	}

@@ -24,16 +24,23 @@ public class GameActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View v,
 					int position, long id) {
 
-				Toast.makeText(GameActivity.this,
-						"pos:" + position + " count:" + imad.getCount(),
-						Toast.LENGTH_SHORT).show();
+				// Toast.makeText(GameActivity.this,
+				// "pos:" + position + " count:" + imad.getCount(),
+				// Toast.LENGTH_SHORT).show();
 
-				// create message
-				MessageContainer m = new MessageContainer();
-				m.setMessage(position % 2 + 2);
-				// refresh gridview elements
-				imad.addElement(m, position);
-				imad.notifyDataSetChanged();
+				// place object if field is blank
+				if (imad.getElement(position) == R.drawable.field_blank) {
+					// create message
+					MessageContainer m = new MessageContainer();
+					// m.setMessage(position % 2 + 2);
+					m.setMessage(MessageContainer.MESSAGE_SYMBOL_O);
+
+					// add object to the list
+					imad.addElement(m, position);
+					// refresh gridview elements
+					imad.notifyDataSetChanged();
+				}
+
 			}
 		});
 
