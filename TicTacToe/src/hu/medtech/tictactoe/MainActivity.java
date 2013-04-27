@@ -127,11 +127,9 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.main_exit:
-				// TODO: alert.show();
-				// //////EZ CSAK DEBUG CELRA KELL////////
-				Intent game = new Intent(MainActivity.this, GameActivity.class);
-				startActivity(game);
-				// /////////////////////////////////////
+				
+				alert.show();
+				
 				break;
 
 			default:
@@ -355,7 +353,7 @@ public class MainActivity extends Activity {
 				break;
 			}
 
-			progress = ProgressDialog.show(this, "Please wait", "Setting up connection...", true, false);
+			progress = ProgressDialog.show(this, "Please wait", "Setting up connection...", true, true);
 
 			String address = data.getStringExtra(DeviceConnect.EXTRA_DEVICE_ADDRESS);
 			mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);

@@ -46,13 +46,17 @@ public class ImageAdapter extends BaseAdapter {
 	}
 
 	public void theWinnerIsO() {
-		//here comes the winning handling
-		Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT).show();
+		// here comes the winning handling
+		// Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT).show();
+
+		
 	}
 
 	public void theWinnerIsX() {
-		//here comes the winning handling
-		Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT).show();
+		// here comes the winning handling
+		// Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT).show();
+
+		
 	}
 
 	public void checkWinO() {
@@ -343,9 +347,7 @@ public class ImageAdapter extends BaseAdapter {
 		if (convertView == null) { // if it's not recycled, initialize some
 									// attributes
 			imageView = new ImageView(mContext);
-			GridView.LayoutParams params = new GridView.LayoutParams(
-					GridView.LayoutParams.FILL_PARENT,
-					GridView.LayoutParams.WRAP_CONTENT);
+			GridView.LayoutParams params = new GridView.LayoutParams(GridView.LayoutParams.FILL_PARENT, GridView.LayoutParams.WRAP_CONTENT);
 			imageView.setLayoutParams(new GridView.LayoutParams(params));
 			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 			imageView.setAdjustViewBounds(true);
