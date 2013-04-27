@@ -138,6 +138,61 @@ public class ImageAdapter extends BaseAdapter {
 
 		}
 
+		// diagonal angle:/
+		for (int j = 0; j < 9; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10 - j; i++) {
+				if (gameTableO[9 - i - j][i] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		for (int j = 1; j < 5; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10; i++) {
+
+				if (gameTableO[9 - i][i + j] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		for (int j = 5, k = 9; j < 13; j++, k--) {
+			int sum = 0;
+			for (int i = 0; i < k; i++) {
+				if (gameTableO[9 - i][j + i] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+
+			}
+
+		}
+
 	}
 
 	public void checkWinX() {
@@ -175,6 +230,116 @@ public class ImageAdapter extends BaseAdapter {
 					return;
 				}
 			}
+		}
+
+		// diagonal angle:\
+		for (int j = 0; j < 9; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10 - j; i++) {
+				if (gameTableX[i + j][i] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		for (int j = 1; j < 5; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10; i++) {
+
+				if (gameTableX[i][i + j] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		for (int j = 5, k = 9; j < 13; j++, k--) {
+			int sum = 0;
+			for (int i = 0; i < k; i++) {
+				if (gameTableX[i][j + i] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+
+			}
+
+		}
+
+		// diagonal angle:/
+		for (int j = 0; j < 9; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10 - j; i++) {
+				if (gameTableX[9 - i - j][i] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		for (int j = 1; j < 5; j++) {
+			int sum = 0;
+			for (int i = 0; i < 10; i++) {
+
+				if (gameTableX[9 - i][i + j] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+			}
+		}
+
+		for (int j = 5, k = 9; j < 13; j++, k--) {
+			int sum = 0;
+			for (int i = 0; i < k; i++) {
+				if (gameTableX[9 - i][j + i] == 1) {
+					sum++;
+				} else {
+					sum = 0;
+				}
+				if (sum == 5) {
+					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
+							.show();
+					sum = 0;
+					return;
+				}
+
+			}
+
 		}
 	}
 
