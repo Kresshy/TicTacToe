@@ -81,23 +81,31 @@ public class MainActivity extends Activity {
 
 			case R.id.main_multiplayer:
 
-				if (((GlobalVariables) getApplication()).getConnectionService().getState() == State.connected) {
+				if (((GlobalVariables) getApplication()).getConnectionService() != null && mBluetoothAdapter.isEnabled()) {
+					if (((GlobalVariables) getApplication()).getConnectionService().getState() == State.connected) {
 
-					MessageContainer startGameMessage = new MessageContainer(MessageContainer.MESSAGE_NEW_GAME, -1, "player1");
+						MessageContainer startGameMessage = new MessageContainer(MessageContainer.MESSAGE_NEW_GAME, -1, "player1");
 
-					try {
+						try {
 
-						((GlobalVariables) getApplication()).getConnectionService().write(messageContainer2ByteArray(startGameMessage));
+							((GlobalVariables) getApplication()).getConnectionService().write(messageContainer2ByteArray(startGameMessage));
 
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+					} else {
+
+						Intent startConnection = new Intent(getApplicationContext(), DeviceConnect.class);
+						startActivityForResult(startConnection, REQUEST_CONNECT);
+
 					}
 
 				} else {
 
-					Intent startConnection = new Intent(getApplicationContext(), DeviceConnect.class);
-					startActivityForResult(startConnection, REQUEST_CONNECT);
+					Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+					startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 
 				}
 
