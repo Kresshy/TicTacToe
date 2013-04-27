@@ -4,8 +4,9 @@ import android.app.Application;
 
 public class GlobalVariables extends Application {
 
-	ConnectionService mConnectionService = null;
-
+	private ConnectionService mConnectionService = null;
+	private int symbol;
+	
 	@Override
 	public void onCreate() {
 
@@ -17,6 +18,14 @@ public class GlobalVariables extends Application {
 
 	public void setConnectionService(ConnectionService mConnectionService) {
 		this.mConnectionService = mConnectionService;
+	}
+	
+	public void setSymbol(int symbol) {
+		this.symbol = symbol;
+	}
+	
+	public int getSymbol() {
+		return symbol;
 	}
 
 }

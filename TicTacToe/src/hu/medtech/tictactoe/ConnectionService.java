@@ -45,7 +45,10 @@ public class ConnectionService {
 		mBluetoothServerSocket = null;
 		mBluetoothSocket = null;
 		mHandler = handler;
-		
+	}
+	
+	public synchronized void setHandler(Handler handler) {
+		mHandler = handler;
 	}
 
 	public synchronized void start() {

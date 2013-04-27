@@ -89,6 +89,7 @@ public class MainActivity extends Activity {
 						try {
 
 							((GlobalVariables) getApplication()).getConnectionService().write(messageContainer2ByteArray(startGameMessage));
+							((GlobalVariables) getApplication()).setSymbol(MessageContainer.MESSAGE_SYMBOL_X);
 
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
@@ -169,6 +170,20 @@ public class MainActivity extends Activity {
 		if (!mBluetoothAdapter.isEnabled()) {
 			Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+		}
+
+		if (((GlobalVariables) getApplication()).getConnectionService() != null) {
+			((GlobalVariables) getApplication()).getConnectionService().setHandler(mHandler);
+		}
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (((GlobalVariables) getApplication()).getConnectionService() != null) {
+			((GlobalVariables) getApplication()).getConnectionService().setHandler(mHandler);
 		}
 
 	}
@@ -290,6 +305,7 @@ public class MainActivity extends Activity {
 
 						MessageContainer ackNewGame = new MessageContainer(MessageContainer.MESSAGE_ACK, -1, "player2");
 						((GlobalVariables) getApplication()).getConnectionService().write(messageContainer2ByteArray(ackNewGame));
+						((GlobalVariables) getApplication()).setSymbol(MessageContainer.MESSAGE_SYMBOL_O);
 
 						Intent gameActivity = new Intent(getApplicationContext(), GameActivity.class);
 						startActivity(gameActivity);
