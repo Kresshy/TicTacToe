@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.YuvImage;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -46,6 +45,16 @@ public class ImageAdapter extends BaseAdapter {
 
 	}
 
+	public void theWinnerIsO() {
+		//here comes the winning handling
+		Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT).show();
+	}
+
+	public void theWinnerIsX() {
+		//here comes the winning handling
+		Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT).show();
+	}
+
 	public void checkWinO() {
 		// in a row
 		for (int j = 0; j < 14; j++) {
@@ -57,8 +66,7 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsO();
 					sum = 0;
 					return;
 				}
@@ -75,8 +83,7 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsO();
 					sum = 0;
 					return;
 				}
@@ -93,32 +100,27 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsO();
 					sum = 0;
 					return;
 				}
 			}
 		}
-
 		for (int j = 1; j < 5; j++) {
 			int sum = 0;
 			for (int i = 0; i < 10; i++) {
-
 				if (gameTableO[i][i + j] == 1) {
 					sum++;
 				} else {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsO();
 					sum = 0;
 					return;
 				}
 			}
 		}
-
 		for (int j = 5, k = 9; j < 13; j++, k--) {
 			int sum = 0;
 			for (int i = 0; i < k; i++) {
@@ -128,14 +130,11 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsO();
 					sum = 0;
 					return;
 				}
-
 			}
-
 		}
 
 		// diagonal angle:/
@@ -148,32 +147,27 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsO();
 					sum = 0;
 					return;
 				}
 			}
 		}
-
 		for (int j = 1; j < 5; j++) {
 			int sum = 0;
 			for (int i = 0; i < 10; i++) {
-
 				if (gameTableO[9 - i][i + j] == 1) {
 					sum++;
 				} else {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsO();
 					sum = 0;
 					return;
 				}
 			}
 		}
-
 		for (int j = 5, k = 9; j < 13; j++, k--) {
 			int sum = 0;
 			for (int i = 0; i < k; i++) {
@@ -183,14 +177,11 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsO();
 					sum = 0;
 					return;
 				}
-
 			}
-
 		}
 
 	}
@@ -206,8 +197,7 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsX();
 					sum = 0;
 					return;
 				}
@@ -224,8 +214,7 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsX();
 					sum = 0;
 					return;
 				}
@@ -242,14 +231,12 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsX();
 					sum = 0;
 					return;
 				}
 			}
 		}
-
 		for (int j = 1; j < 5; j++) {
 			int sum = 0;
 			for (int i = 0; i < 10; i++) {
@@ -260,14 +247,12 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsX();
 					sum = 0;
 					return;
 				}
 			}
 		}
-
 		for (int j = 5, k = 9; j < 13; j++, k--) {
 			int sum = 0;
 			for (int i = 0; i < k; i++) {
@@ -277,14 +262,11 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsX();
 					sum = 0;
 					return;
 				}
-
 			}
-
 		}
 
 		// diagonal angle:/
@@ -297,32 +279,27 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsX();
 					sum = 0;
 					return;
 				}
 			}
 		}
-
 		for (int j = 1; j < 5; j++) {
 			int sum = 0;
 			for (int i = 0; i < 10; i++) {
-
 				if (gameTableX[9 - i][i + j] == 1) {
 					sum++;
 				} else {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsX();
 					sum = 0;
 					return;
 				}
 			}
 		}
-
 		for (int j = 5, k = 9; j < 13; j++, k--) {
 			int sum = 0;
 			for (int i = 0; i < k; i++) {
@@ -332,15 +309,13 @@ public class ImageAdapter extends BaseAdapter {
 					sum = 0;
 				}
 				if (sum == 5) {
-					Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT)
-							.show();
+					theWinnerIsX();
 					sum = 0;
 					return;
 				}
-
 			}
-
 		}
+
 	}
 
 	public int getElement(int pos) {
