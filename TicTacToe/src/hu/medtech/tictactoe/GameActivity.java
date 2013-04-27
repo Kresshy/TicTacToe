@@ -128,6 +128,12 @@ public class GameActivity extends Activity {
 						// GameOver
 
 						break;
+						
+					case MessageContainer.MESSAGE_GAME_OVER:
+						
+						// the map is full
+						
+						break;
 
 					default:
 
