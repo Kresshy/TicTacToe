@@ -1,5 +1,6 @@
 package hu.medtech.tictactoe;
 
+import hu.medtech.tictactoe.ConnectionService.State;
 import hu.medtech.tictactoe.datastorage.ScoreDbLoader;
 
 import java.io.ByteArrayInputStream;
@@ -62,6 +63,15 @@ public class MainActivity extends Activity {
 	AlertDialog alert;
 	ProgressDialog progress;
 
+	public byte[] messageContainer2ByteArray(MessageContainer m) throws IOException {
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
+		oos.writeObject(m);
+		return baos.toByteArray();
+
+	}
+
 	OnClickListener onClickListener = new OnClickListener() {
 
 		@Override
@@ -71,28 +81,25 @@ public class MainActivity extends Activity {
 
 			case R.id.main_multiplayer:
 
-				// if (mBluetoothAdapter.isEnabled()
-				// && ((GlobalVariables) getApplication())
-				// .getConnectionService() != null) {
-				// try {
-				//
-				// MessageContainer messageContainer = new MessageContainer();
-				// int coords[] = { 0, 0 };
-				// messageContainer.setCoords(coords);
-				// ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				// ObjectOutputStream oos = new ObjectOutputStream(baos);
-				// oos.writeObject(messageContainer);
-				// ((GlobalVariables) getApplication())
-				// .getConnectionService().write(
-				// baos.toByteArray());
-				//
-				// } catch (IOException e) {
-				// e.printStackTrace();
-				// }
-				// }
+				if (((GlobalVariables) getApplication()).getConnectionService().getState() == State.connected) {
 
-				Intent startConnection = new Intent(getApplicationContext(), DeviceConnect.class);
-				startActivityForResult(startConnection, REQUEST_CONNECT);
+					MessageContainer startGameMessage = new MessageContainer(MessageContainer.MESSAGE_NEW_GAME, -1, "player1");
+
+					try {
+
+						((GlobalVariables) getApplication()).getConnectionService().write(messageContainer2ByteArray(startGameMessage));
+
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				} else {
+
+					Intent startConnection = new Intent(getApplicationContext(), DeviceConnect.class);
+					startActivityForResult(startConnection, REQUEST_CONNECT);
+
+				}
 
 				break;
 
@@ -241,16 +248,15 @@ public class MainActivity extends Activity {
 			case MESSAGE_TOAST:
 
 				String message = (String) msg.obj;
-				Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+
+				if (message.contains("Connected"))
+					Toast.makeText(getApplicationContext(), "Connected start a new multiplayer game", Toast.LENGTH_LONG).show();
 
 				if (progress != null) {
 					if (progress.isShowing()) {
 						progress.dismiss();
 					}
 				}
-
-				Intent gameActivity = new Intent(getApplicationContext(), GameActivity.class);
-				startActivity(gameActivity);
 
 				break;
 
@@ -260,14 +266,46 @@ public class MainActivity extends Activity {
 
 					byte[] readBuf = (byte[]) msg.obj;
 					int paramInt = msg.arg1;
+
 					ByteArrayInputStream bais = new ByteArrayInputStream(readBuf);
 					ObjectInputStream ois;
 					ois = new ObjectInputStream(bais);
-					MessageContainer readedMessage = (MessageContainer) ois.readObject();
 
-					Toast.makeText(getApplicationContext(),
-							"Content: " + readedMessage.getMessage() + " " + readedMessage.getCoords()[0] + " " + readedMessage.getCoords()[1],
-							Toast.LENGTH_LONG).show();
+					MessageContainer readedMessage = (MessageContainer) ois.readObject();
+					Log.i("MainActivity", "Message NUM: " + readedMessage.getMessage());
+
+					switch (readedMessage.getMessage()) {
+
+					case MessageContainer.MESSAGE_NEW_GAME:
+
+						Log.i("MainActivity", "MESSAGE_NEW_GAME received from: " + readedMessage.getName() + " sending ACK");
+
+						MessageContainer ackNewGame = new MessageContainer(MessageContainer.MESSAGE_ACK, -1, "player2");
+						((GlobalVariables) getApplication()).getConnectionService().write(messageContainer2ByteArray(ackNewGame));
+
+						Intent gameActivity = new Intent(getApplicationContext(), GameActivity.class);
+						startActivity(gameActivity);
+
+						break;
+
+					case MessageContainer.MESSAGE_ACK:
+
+						Log.i("MainActivity", "MESSAGE_ACK received");
+
+						if (readedMessage.getCoords() == -1) {
+							Log.i("MainActivity", "ACK for starting new Game with: " + readedMessage.getName());
+
+							Intent ackGameActivity = new Intent(getApplicationContext(), GameActivity.class);
+							startActivity(ackGameActivity);
+						}
+
+						break;
+
+					default:
+
+						break;
+					}
+
 				} catch (StreamCorruptedException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -275,6 +313,7 @@ public class MainActivity extends Activity {
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
+
 				break;
 
 			}
@@ -323,6 +362,9 @@ public class MainActivity extends Activity {
 
 		switch (item.getItemId()) {
 		case R.id.menu_connect:
+
+			Intent startConnection = new Intent(getApplicationContext(), DeviceConnect.class);
+			startActivityForResult(startConnection, REQUEST_CONNECT);
 
 			break;
 

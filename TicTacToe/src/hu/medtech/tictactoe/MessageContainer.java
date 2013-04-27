@@ -17,11 +17,19 @@ public class MessageContainer implements Serializable {
 	public final static int MESSAGE_GAME_OVER = 6;
 
 	private int message;
-	private int coords[];
+	private int coords;
+	private String name;
 
 	public MessageContainer() {
 		this.setMessage(1);
-		this.setCoords(new int[2]);
+		this.setCoords(0);
+		this.setName("player1");
+	}
+	
+	public MessageContainer(int message, int coords, String name) {
+		this.message = message;
+		this.coords = coords;
+		this.setName(name);
 	}
 
 	public int getMessage() {
@@ -32,12 +40,20 @@ public class MessageContainer implements Serializable {
 		this.message = message;
 	}
 
-	public int[] getCoords() {
+	public int getCoords() {
 		return coords;
 	}
 
-	public void setCoords(int coords[]) {
+	public void setCoords(int coords) {
 		this.coords = coords;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

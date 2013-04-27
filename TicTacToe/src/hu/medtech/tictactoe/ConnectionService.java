@@ -17,7 +17,13 @@ public class ConnectionService {
 	// Debugging
 	private static final String TAG = "ConnectionService";
 	private static final boolean D = true;
+	
+	public static enum State {
+		disconnected, connected, connecting
+	};
 
+	private State state = State.disconnected;
+	
 	private static BluetoothAdapter mBluetoothAdapter;
 	private static BluetoothServerSocket mBluetoothServerSocket;
 	private static BluetoothSocket mBluetoothSocket;
@@ -33,13 +39,13 @@ public class ConnectionService {
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 	public ConnectionService(Handler handler) {
-
+		state = State.disconnected;
 		mBluetoothDevice = null;
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		mBluetoothServerSocket = null;
 		mBluetoothSocket = null;
 		mHandler = handler;
-
+		
 	}
 
 	public synchronized void start() {
@@ -69,6 +75,8 @@ public class ConnectionService {
 			if (D)
 				Log.d(TAG, "START AcceptThread");
 		}
+		
+		state = State.disconnected;
 
 	}
 
@@ -97,6 +105,8 @@ public class ConnectionService {
 		mConnectThread.start();
 		if (D)
 			Log.d(TAG, "START ConnectThread " + device);
+		
+		state = State.connecting;
 	}
 
 	public synchronized void connected(BluetoothSocket socket) {
@@ -132,6 +142,8 @@ public class ConnectionService {
 		mConnectedThread.start();
 		if (D)
 			Log.d(TAG, "START ConnectedThread");
+		
+		state = State.connected;
 	}
 
 	public synchronized void stop() {
@@ -158,6 +170,8 @@ public class ConnectionService {
 			if (D)
 				Log.d(TAG, "STOP AccceptThread");
 		}
+		
+		state = State.disconnected;
 	}
 
 	public void write(byte[] out) {
@@ -173,6 +187,10 @@ public class ConnectionService {
 
 		// Perform the write unsynchronized
 		r.write(out);
+	}
+
+	public State getState() {
+		return state;
 	}
 
 	private class AcceptThread extends Thread {
