@@ -120,7 +120,7 @@ public class GameActivity extends Activity {
 						addImageAdapter(readedMessage);
 						imad.notifyDataSetChanged();
 						gridview.setOnItemClickListener(onItemClickListener);
-						
+
 						break;
 
 					case MessageContainer.MESSAGE_WIN:
@@ -128,11 +128,11 @@ public class GameActivity extends Activity {
 						// GameOver
 
 						break;
-						
+
 					case MessageContainer.MESSAGE_GAME_OVER:
-						
+
 						// the map is full
-						
+
 						break;
 
 					default:

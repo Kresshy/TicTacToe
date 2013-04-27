@@ -49,14 +49,12 @@ public class ImageAdapter extends BaseAdapter {
 		// here comes the winning handling
 		// Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT).show();
 
-		
 	}
 
 	public void theWinnerIsX() {
 		// here comes the winning handling
 		// Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT).show();
 
-		
 	}
 
 	public void checkWinO() {

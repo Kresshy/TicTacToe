@@ -127,12 +127,13 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.main_exit:
-				
+
 				alert.show();
-				
+
 				break;
 
 			default:
+
 				break;
 			}
 
