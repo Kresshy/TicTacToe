@@ -11,7 +11,10 @@ public class MessageContainer implements Serializable {
 
 	public final static int MESSAGE_NEW_GAME = 1;
 	public final static int MESSAGE_SYMBOL_X = 2;
-	public final static int MESSAGE_SYMBOL_Y = 3;
+	public final static int MESSAGE_SYMBOL_O = 3;
+	public final static int MESSAGE_ACK = 4;
+	public final static int MESSAGE_WIN = 5;
+	public final static int MESSAGE_GAME_OVER = 6;
 
 	private int message;
 	private int coords[];

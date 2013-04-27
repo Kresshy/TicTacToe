@@ -27,7 +27,7 @@ public class ImageAdapter extends BaseAdapter {
 		case MessageContainer.MESSAGE_SYMBOL_X:
 			mThumbIds.set(pos, R.drawable.field_x);
 			break;
-		case MessageContainer.MESSAGE_SYMBOL_Y:
+		case MessageContainer.MESSAGE_SYMBOL_O:
 			mThumbIds.set(pos, R.drawable.field_y);
 			break;
 		}
