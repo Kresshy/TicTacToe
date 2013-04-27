@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -67,12 +68,16 @@ public class DeviceConnect extends Activity {
 		ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
 		pairedListView.setAdapter(mPairedDevicesArrayAdapter);
 		pairedListView.setOnItemClickListener(mDeviceClickListener);
-
+		pairedListView.setCacheColorHint(Color.TRANSPARENT);
+		pairedListView.requestFocus(0);
+		
 		// Find and set up the ListView for newly discovered devices
 		ListView newDevicesListView = (ListView) findViewById(R.id.new_devices);
 		newDevicesListView.setAdapter(mNewDevicesArrayAdapter);
 		newDevicesListView.setOnItemClickListener(mDeviceClickListener);
-
+		newDevicesListView.setCacheColorHint(Color.TRANSPARENT);
+		newDevicesListView.requestFocus(0);
+		
 		// Register for broadcasts when a device is discovered
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		this.registerReceiver(mReceiver, filter);
