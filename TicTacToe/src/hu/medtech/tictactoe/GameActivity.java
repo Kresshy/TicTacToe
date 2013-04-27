@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,54 +20,54 @@ import android.widget.GridView;
 public class GameActivity extends Activity {
 
 	final ImageAdapter imad = new ImageAdapter(this);
-	private static final int MESSAGE_ADD_ITEM = 1;
+	private GridView gridview;
+
+	OnItemClickListener onItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+			// TODO Auto-generated method stub
+			// place object if field is blank
+			if (imad.getElement(arg2) == R.drawable.field_blank) {
+				// create message
+				MessageContainer m = new MessageContainer();
+				// m.setMessage(position % 2 + 2);
+				m.setMessage(((GlobalVariables) getApplication()).getSymbol());
+				m.setCoords(arg2);
+
+				try {
+
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					ObjectOutputStream oos;
+					oos = new ObjectOutputStream(baos);
+					oos.writeObject(m);
+					((GlobalVariables) getApplication()).getConnectionService().write(baos.toByteArray());
+					gridview.setOnItemClickListener(null);
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				// add object to the list
+				imad.addElement(m, arg2);
+				// refresh gridview elements
+				imad.notifyDataSetChanged();
+			}
+		}
+
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 
-		final GridView gridview = (GridView) findViewById(R.id.gamegridview);
-		gridview.setAdapter(imad);
-
 		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
 
-		gridview.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-				// Toast.makeText(GameActivity.this,
-				// "pos:" + position + " count:" + imad.getCount(),
-				// Toast.LENGTH_SHORT).show();
-
-				// place object if field is blank
-				if (imad.getElement(position) == R.drawable.field_blank) {
-					// create message
-					MessageContainer m = new MessageContainer();
-					// m.setMessage(position % 2 + 2);
-					m.setMessage(((GlobalVariables)getApplication()).getSymbol());
-					m.setCoords(position);
-
-					try {
-
-						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						ObjectOutputStream oos;
-						oos = new ObjectOutputStream(baos);
-						oos.writeObject(m);
-						((GlobalVariables) getApplication()).getConnectionService().write(baos.toByteArray());
-
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-					// add object to the list
-					imad.addElement(m, position);
-					// refresh gridview elements
-					imad.notifyDataSetChanged();
-				}
-
-			}
-		});
+		gridview = (GridView) findViewById(R.id.gamegridview);
+		gridview.setAdapter(imad);
+		gridview.setOnItemClickListener(onItemClickListener);
 
 	}
 
@@ -112,6 +111,7 @@ public class GameActivity extends Activity {
 
 						addImageAdapter(readedMessage);
 						imad.notifyDataSetChanged();
+						gridview.setOnItemClickListener(onItemClickListener);
 
 						break;
 
@@ -119,7 +119,8 @@ public class GameActivity extends Activity {
 
 						addImageAdapter(readedMessage);
 						imad.notifyDataSetChanged();
-
+						gridview.setOnItemClickListener(onItemClickListener);
+						
 						break;
 
 					case MessageContainer.MESSAGE_WIN:
