@@ -14,12 +14,14 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class GameActivity extends Activity {
@@ -28,10 +30,14 @@ public class GameActivity extends Activity {
 	private GridView gridview;
 
 	MediaPlayer clickSound;
+	static int currentSec;
+	static int currentMin;
+	static TextView timertxt;
 
 	// ha a beallitasokban engedelyezve van, akkor hang lejatszasa
 	public void playClickSound() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
 		boolean sounds_pref = prefs.getBoolean("checkboxSounds", true);
 		if (sounds_pref == true) {
 			clickSound.start();
@@ -41,7 +47,8 @@ public class GameActivity extends Activity {
 	OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
 			// place object if field is blank
 			if (imad.getElement(arg2) == R.drawable.field_blank) {
 				// play sound
@@ -57,7 +64,8 @@ public class GameActivity extends Activity {
 					ObjectOutputStream oos;
 					oos = new ObjectOutputStream(baos);
 					oos.writeObject(m);
-					((GlobalVariables) getApplication()).getConnectionService().write(baos.toByteArray());
+					((GlobalVariables) getApplication()).getConnectionService()
+							.write(baos.toByteArray());
 					gridview.setOnItemClickListener(null);
 
 				} catch (IOException e) {
@@ -73,18 +81,45 @@ public class GameActivity extends Activity {
 
 	};
 
+	// az idoszamlalo
+	public static Handler mHandler = new Handler();
+	public static Runnable mUpdateTimeTask = new Runnable() {
+		public void run() {
+			currentSec = currentSec + 1;
+			if (currentSec == 60) {
+				currentSec = 0;
+				currentMin++;
+			}
+
+			if (currentSec < 10) {
+				timertxt.setText("Time: " + currentMin + ":0" + currentSec);
+			} else {
+				timertxt.setText("Time: " + currentMin + ":" + currentSec);
+			}
+
+			mHandler.postAtTime(this, SystemClock.uptimeMillis() + 1000);
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 
-		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
+		((GlobalVariables) getApplication()).getConnectionService().setHandler(
+				handler);
 
 		gridview = (GridView) findViewById(R.id.gamegridview);
 		gridview.setAdapter(imad);
 		gridview.setOnItemClickListener(onItemClickListener);
 
 		clickSound = MediaPlayer.create(getApplicationContext(), R.raw.click);
+
+		timertxt = (TextView) findViewById(R.id.game_time);
+		currentSec = 0;
+		currentMin = 0;
+		mHandler.removeCallbacks(mUpdateTimeTask);
+		mHandler.postDelayed(mUpdateTimeTask, 100);
 
 	}
 
@@ -105,13 +140,15 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
+		((GlobalVariables) getApplication()).getConnectionService().setHandler(
+				handler);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
+		((GlobalVariables) getApplication()).getConnectionService().setHandler(
+				handler);
 	}
 
 	private final Handler handler = new Handler() {
@@ -129,12 +166,15 @@ public class GameActivity extends Activity {
 					byte[] readBuf = (byte[]) msg.obj;
 					// int paramInt = msg.arg1;
 
-					ByteArrayInputStream bais = new ByteArrayInputStream(readBuf);
+					ByteArrayInputStream bais = new ByteArrayInputStream(
+							readBuf);
 					ObjectInputStream ois;
 					ois = new ObjectInputStream(bais);
 
-					MessageContainer readedMessage = (MessageContainer) ois.readObject();
-					Log.i("GameActivity", "Message NUM: " + readedMessage.getMessage());
+					MessageContainer readedMessage = (MessageContainer) ois
+							.readObject();
+					Log.i("GameActivity",
+							"Message NUM: " + readedMessage.getMessage());
 
 					switch (readedMessage.getMessage()) {
 
@@ -162,9 +202,12 @@ public class GameActivity extends Activity {
 
 					case MessageContainer.MESSAGE_EXIT:
 
-						Log.i("GameActivity", "Stop connection and accept new ones");
-						((GlobalVariables) getApplication()).getConnectionService().stop();
-						((GlobalVariables) getApplication()).getConnectionService().start();
+						Log.i("GameActivity",
+								"Stop connection and accept new ones");
+						((GlobalVariables) getApplication())
+								.getConnectionService().stop();
+						((GlobalVariables) getApplication())
+								.getConnectionService().start();
 						finish();
 
 						break;
@@ -172,7 +215,9 @@ public class GameActivity extends Activity {
 					case MessageContainer.MESSAGE_GAME_OVER:
 
 						if (readedMessage.getCoords() == -1) {
-							Toast.makeText(getApplicationContext(), "Your opponent has quit the game", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(),
+									"Your opponent has quit the game",
+									Toast.LENGTH_LONG).show();
 							finish();
 						}
 
@@ -208,13 +253,17 @@ public class GameActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 
+		mHandler.removeCallbacks(mUpdateTimeTask);
+
 		try {
-			MessageContainer m = new MessageContainer(MessageContainer.MESSAGE_GAME_OVER, -1);
+			MessageContainer m = new MessageContainer(
+					MessageContainer.MESSAGE_GAME_OVER, -1);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos;
 			oos = new ObjectOutputStream(baos);
 			oos.writeObject(m);
-			((GlobalVariables) getApplication()).getConnectionService().write(baos.toByteArray());
+			((GlobalVariables) getApplication()).getConnectionService().write(
+					baos.toByteArray());
 
 		} catch (IOException e) {
 			e.printStackTrace();

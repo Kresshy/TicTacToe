@@ -9,25 +9,26 @@
         android:id="@+id/highscore_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.33"
+        android:layout_weight="0.5"
         android:gravity="center"
         android:text="Name"
         android:textColor="#414141" />
 
-    <TextView
-        android:id="@+id/highscore_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.33"
-        android:gravity="center"
-        android:text="Score"
-        android:textColor="#FF0000" />
+    <!-- <TextView -->
+    <!-- android:id="@+id/highscore_score" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_weight="0.33" -->
+    <!-- android:gravity="center" -->
+    <!-- android:text="Score" -->
+    <!-- android:textColor="#FF0000" /> -->
+
 
     <TextView
         android:id="@+id/highscore_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.33"
+        android:layout_weight="0.5"
         android:gravity="center"
         android:text="Time"
         android:textColor="#414141" />

@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 public class GameOverDialog extends Activity {
@@ -28,21 +26,11 @@ public class GameOverDialog extends Activity {
 		String timestr;
 		String scorestr;
 
-		// //time lekerese
-		// if (MainActivity.currentSec<10){timestr=MainActivity.currentMin +
-		// ":0" + MainActivity.currentSec;}
-		// else{timestr=MainActivity.currentMin + ":" +
-		// MainActivity.currentSec;}
-		//
-		// //pont lekerese (a helyes sorrend miatt kell a feltetel)
-		// if(MainActivity.score<10 &&
-		// MainActivity.score>0){scorestr="0"+MainActivity.score;}
-		// else{scorestr=""+MainActivity.score;}
-
 		// bejegyzes letrehozasa
 		ScoreDbLoader dbLoader = new ScoreDbLoader(getApplicationContext());
 		dbLoader.open();
-		dbLoader.createScore(new Score(name.getText().toString(), "00:00", "5"));
+		dbLoader.createScore(new Score(name.getText().toString(), time
+				.getText().toString(), "0"));
 		dbLoader.close();
 	}
 
@@ -55,22 +43,7 @@ public class GameOverDialog extends Activity {
 	}
 
 	public void saveAndClose() {
-		// mentunk az adatbazisba
 		saveResultToDatabase();
-
-		// //lenullazzuk a jatekot
-		// MainActivity.fel_db=0;
-		// MainActivity.felid0=0;
-		// MainActivity.felid1=0;
-		// MainActivity.felpict0=0;
-		// MainActivity.felpict1=0;
-		// MainActivity.megtalalt=0;
-		// MainActivity.proba=0;
-		// MainActivity.score=0;
-		// MainActivity.currentMin=0;
-		// MainActivity.currentSec=0;
-		// MainActivity.vege=0;
-
 		close();
 	}
 
@@ -110,22 +83,14 @@ public class GameOverDialog extends Activity {
 			String userName = prefs.getString("editTextName", "");
 			name.setText(userName);
 			name.setSelectAllOnFocus(true);
-		}
-		else{
+		} else {
 			name.setText("You didn't win");
 			name.setEnabled(false);
 		}
 
 		time = (TextView) findViewById(R.id.gameover_time_value);
-		// score = (TextView) findViewById(R.id.score_value);
-		// score.setText("  " + MainActivity.score);
-		// if (MainActivity.currentSec < 10) {
-		// time.setText("  " + MainActivity.currentMin + ":0"
-		// + MainActivity.currentSec);
-		// } else {
-		// time.setText("  " + MainActivity.currentMin + ":"
-		// + MainActivity.currentSec);
-		// }
+		time.setText(GameActivity.timertxt.getText().subSequence(6,
+				GameActivity.timertxt.getText().length()));
 
 		backbtn = (Button) findViewById(R.id.gameover_btn_back);
 		backbtn.setOnClickListener(new OnClickListener() {

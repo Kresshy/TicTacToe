@@ -33,7 +33,7 @@
         android:layout_below="@id/gamegridview"
         android:layout_marginLeft="10dp"
         android:gravity="center_horizontal"
-        android:textColor="#FF0000"
+        android:textColor="#414141"
         android:textSize="20dp" />
 
 </RelativeLayout>

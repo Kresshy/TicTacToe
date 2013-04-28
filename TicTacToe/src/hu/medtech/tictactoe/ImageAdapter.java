@@ -60,6 +60,7 @@ public class ImageAdapter extends BaseAdapter {
 		Intent intent = new Intent(mContext, GameOverDialog.class);
 		intent.putExtra("winplayer","O");
 		activityRef.get().startActivityForResult(intent, REQUEST_GAME_OVER_O);
+		GameActivity.mHandler.removeCallbacks(GameActivity.mUpdateTimeTask);
 	}
 
 	public void theWinnerIsX() {
@@ -68,6 +69,7 @@ public class ImageAdapter extends BaseAdapter {
 		Intent intent = new Intent(mContext, GameOverDialog.class);
 		intent.putExtra("winplayer","X");
 		activityRef.get().startActivityForResult(intent, REQUEST_GAME_OVER_X);
+		GameActivity.mHandler.removeCallbacks(GameActivity.mUpdateTimeTask);
 	}
 
 	public void checkWinO() {
