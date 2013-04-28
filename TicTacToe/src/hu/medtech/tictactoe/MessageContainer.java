@@ -6,13 +6,13 @@ public class MessageContainer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static int MESSAGE_NEW_GAME = 1;
-	public final static int MESSAGE_SYMBOL_X = 2;
-	public final static int MESSAGE_SYMBOL_O = 3;
-	public final static int MESSAGE_ACK = 4;
-	public final static int MESSAGE_WIN = 5;
-	public final static int MESSAGE_GAME_OVER = 6;
-	public final static int MESSAGE_EXIT = 7;
+	public final transient static int MESSAGE_NEW_GAME = 1;
+	public final transient static int MESSAGE_SYMBOL_X = 2;
+	public final transient static int MESSAGE_SYMBOL_O = 3;
+	public final transient static int MESSAGE_ACK = 4;
+	public final transient static int MESSAGE_WIN = 5;
+	public final transient static int MESSAGE_GAME_OVER = 6;
+	public final transient static int MESSAGE_EXIT = 7;
 
 	private int message;
 	private int coords;
