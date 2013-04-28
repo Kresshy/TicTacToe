@@ -251,7 +251,6 @@ public class MainActivity extends Activity {
 											messageContainer2ByteArray(m));
 						}
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -441,6 +440,12 @@ public class MainActivity extends Activity {
 			if (resultCode == RESULT_OK) {
 				Toast.makeText(getApplicationContext(), "Bluetooth is enabled",
 						Toast.LENGTH_LONG).show();
+
+				Intent discoverableIntent = new Intent(
+						BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+				discoverableIntent.putExtra(
+						BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+				startActivity(discoverableIntent);
 				break;
 			}
 
