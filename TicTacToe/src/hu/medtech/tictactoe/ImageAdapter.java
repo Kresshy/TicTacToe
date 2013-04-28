@@ -1,15 +1,17 @@
 package hu.medtech.tictactoe;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class ImageAdapter extends BaseAdapter {
 
@@ -17,9 +19,16 @@ public class ImageAdapter extends BaseAdapter {
 	private List<Integer> mThumbIds = new ArrayList<Integer>();
 	private int[][] gameTableX = new int[10][14];
 	private int[][] gameTableO = new int[10][14];
+	
+	private WeakReference<Activity> activityRef;
 
-	public ImageAdapter(Context c) {
+	private final int REQUEST_GAME_OVER_X = 101;
+	private final int REQUEST_GAME_OVER_O = 102;
+	public static final String MYGAMEOVERRESULT = "GAMEOVER";
+
+	public ImageAdapter(Context c, Activity a) {
 		mContext = c;
+		this.activityRef = new WeakReference<Activity>(a);
 		for (int i = 0; i < 140; i++) {
 			mThumbIds.add(R.drawable.field_blank);
 		}
@@ -46,15 +55,17 @@ public class ImageAdapter extends BaseAdapter {
 	}
 
 	public void theWinnerIsO() {
-		// here comes the winning handling
+		// winning handling
 		// Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT).show();
-
+		Intent intent = new Intent(mContext, GameOverDialog.class);
+		activityRef.get().startActivityForResult(intent, REQUEST_GAME_OVER_O);
 	}
 
 	public void theWinnerIsX() {
-		// here comes the winning handling
+		// winning handling
 		// Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT).show();
-
+		Intent intent = new Intent(mContext, GameOverDialog.class);
+		activityRef.get().startActivityForResult(intent, REQUEST_GAME_OVER_X);
 	}
 
 	public void checkWinO() {
@@ -345,7 +356,9 @@ public class ImageAdapter extends BaseAdapter {
 		if (convertView == null) { // if it's not recycled, initialize some
 									// attributes
 			imageView = new ImageView(mContext);
-			GridView.LayoutParams params = new GridView.LayoutParams(GridView.LayoutParams.FILL_PARENT, GridView.LayoutParams.WRAP_CONTENT);
+			GridView.LayoutParams params = new GridView.LayoutParams(
+					GridView.LayoutParams.FILL_PARENT,
+					GridView.LayoutParams.WRAP_CONTENT);
 			imageView.setLayoutParams(new GridView.LayoutParams(params));
 			imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 			imageView.setAdjustViewBounds(true);

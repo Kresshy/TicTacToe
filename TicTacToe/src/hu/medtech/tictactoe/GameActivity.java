@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,19 +20,18 @@ import android.widget.GridView;
 
 public class GameActivity extends Activity {
 
-	final ImageAdapter imad = new ImageAdapter(this);
+	private final ImageAdapter imad = new ImageAdapter(this,this);
 	private GridView gridview;
 
 	OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			// TODO Auto-generated method stub
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
 			// place object if field is blank
 			if (imad.getElement(arg2) == R.drawable.field_blank) {
 				// create message
 				MessageContainer m = new MessageContainer();
-				// m.setMessage(position % 2 + 2);
 				m.setMessage(((GlobalVariables) getApplication()).getSymbol());
 				m.setCoords(arg2);
 
@@ -41,11 +41,11 @@ public class GameActivity extends Activity {
 					ObjectOutputStream oos;
 					oos = new ObjectOutputStream(baos);
 					oos.writeObject(m);
-					((GlobalVariables) getApplication()).getConnectionService().write(baos.toByteArray());
+					((GlobalVariables) getApplication()).getConnectionService()
+							.write(baos.toByteArray());
 					gridview.setOnItemClickListener(null);
 
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -63,7 +63,8 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 
-		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
+		((GlobalVariables) getApplication()).getConnectionService().setHandler(
+				handler);
 
 		gridview = (GridView) findViewById(R.id.gamegridview);
 		gridview.setAdapter(imad);
@@ -74,13 +75,15 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
+		((GlobalVariables) getApplication()).getConnectionService().setHandler(
+				handler);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
+		((GlobalVariables) getApplication()).getConnectionService().setHandler(
+				handler);
 	}
 
 	private final Handler handler = new Handler() {
@@ -98,12 +101,15 @@ public class GameActivity extends Activity {
 					byte[] readBuf = (byte[]) msg.obj;
 					int paramInt = msg.arg1;
 
-					ByteArrayInputStream bais = new ByteArrayInputStream(readBuf);
+					ByteArrayInputStream bais = new ByteArrayInputStream(
+							readBuf);
 					ObjectInputStream ois;
 					ois = new ObjectInputStream(bais);
 
-					MessageContainer readedMessage = (MessageContainer) ois.readObject();
-					Log.i("GameActivity", "Message NUM: " + readedMessage.getMessage());
+					MessageContainer readedMessage = (MessageContainer) ois
+							.readObject();
+					Log.i("GameActivity",
+							"Message NUM: " + readedMessage.getMessage());
 
 					switch (readedMessage.getMessage()) {
 
@@ -126,7 +132,7 @@ public class GameActivity extends Activity {
 					case MessageContainer.MESSAGE_WIN:
 
 						// GameOver
-
+						
 						break;
 
 					case MessageContainer.MESSAGE_GAME_OVER:
