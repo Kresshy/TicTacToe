@@ -80,6 +80,7 @@
         <TableRow>
 
             <TextView
+                android:id="@+id/gameover_submit_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -92,7 +93,7 @@
 
             <EditText
                 android:id="@+id/gameover_submit_value"
-                android:layout_width="130dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="left" />

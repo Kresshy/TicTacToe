@@ -95,13 +95,11 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == ImageAdapter.REQUEST_GAME_OVER_O) {
-			Toast.makeText(getApplicationContext(), "OOOOOO",
-					Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), "O won",Toast.LENGTH_SHORT).show();
 			this.finish();
 		}
 		if (requestCode == ImageAdapter.REQUEST_GAME_OVER_X) {
-			Toast.makeText(getApplicationContext(), "XXXXXX",
-					Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), "X won",Toast.LENGTH_SHORT).show();
 			this.finish();
 		}
 	};
