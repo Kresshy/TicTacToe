@@ -154,7 +154,7 @@ public class GameActivity extends Activity {
 
 						if (readedMessage.getCoords() == -1) {
 							Toast.makeText(getApplicationContext(),
-									"You opponent has quit the game",
+									"Your opponent has quit the game",
 									Toast.LENGTH_LONG).show();
 							finish();
 						}
