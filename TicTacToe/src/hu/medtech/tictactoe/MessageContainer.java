@@ -15,6 +15,7 @@ public class MessageContainer implements Serializable {
 	public final static int MESSAGE_ACK = 4;
 	public final static int MESSAGE_WIN = 5;
 	public final static int MESSAGE_GAME_OVER = 6;
+	public final static int MESSAGE_EXIT = 7;
 
 	private int message;
 	private int coords;
