@@ -58,6 +58,7 @@ public class ImageAdapter extends BaseAdapter {
 		// winning handling
 		// Toast.makeText(mContext, "O WINWINWIN", Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent(mContext, GameOverDialog.class);
+		intent.putExtra("winplayer","O");
 		activityRef.get().startActivityForResult(intent, REQUEST_GAME_OVER_O);
 	}
 
@@ -65,6 +66,7 @@ public class ImageAdapter extends BaseAdapter {
 		// winning handling
 		// Toast.makeText(mContext, "X WINWINWIN", Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent(mContext, GameOverDialog.class);
+		intent.putExtra("winplayer","X");
 		activityRef.get().startActivityForResult(intent, REQUEST_GAME_OVER_X);
 	}
 

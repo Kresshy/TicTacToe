@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,12 +16,11 @@ import android.widget.TextView;
 public class GameOverDialog extends Activity {
 
 	TextView time;
-	// TextView score;
+	TextView title;
 	EditText name;
-
 	Button backbtn;
 
-	// Button newbtn;
+	String winnerCode;
 
 	public void saveResultToDatabase() {
 		String timestr;
@@ -79,6 +79,7 @@ public class GameOverDialog extends Activity {
 		String userName = prefs.getString("editTextName", "");
 
 		// a dialog ertekeinek beallitasa
+		title = (TextView) findViewById(R.id.gameovertitle);
 		name = (EditText) findViewById(R.id.gameover_submit_value);
 		name.setText(userName);
 		name.setSelectAllOnFocus(true);
@@ -95,7 +96,6 @@ public class GameOverDialog extends Activity {
 
 		// gombok
 		backbtn = (Button) findViewById(R.id.gameover_btn_back);
-		// newbtn = (Button) findViewById(R.id.gameover_btn_newgame);
 
 		// gombok esemenykezeloi
 		backbtn.setOnClickListener(new OnClickListener() {
@@ -106,18 +106,13 @@ public class GameOverDialog extends Activity {
 			}
 		});
 
-		// newbtn.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// // ment es bezar
-		// saveAndClose();
-		//
-		// // ujra elinditjuk a jatekot
-		// Intent intent = new Intent(GameOverDialog.this,
-		// MainActivity.class);
-		// startActivity(intent);
-		// }
-		// });
+		winnerCode = getIntent().getStringExtra("winplayer");
+		if (winnerCode.equals("O")) {
+			title.setText("Player O won!");
+		}
+		if (winnerCode.equals("X")) {
+			title.setText("Player X won!");
+		}
 
 	}
 

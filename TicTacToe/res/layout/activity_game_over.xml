@@ -12,12 +12,14 @@
     <!-- android:src="@drawable/game_over" /> -->
 
     <TextView
+        android:id="@+id/gameovertitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="left"
         android:paddingTop="10dp"
         android:text="@string/gameoverdialogtitle"
-        android:textColor="#FFFFFF" />
+        android:textColor="#529fff"
+        android:textSize="25dp" />
 
     <TableLayout
         android:layout_width="wrap_content"
@@ -82,7 +84,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:paddingLeft="8dp"
-                
                 android:text="@string/gameoversubmitlabel"
                 android:textColor="#FFFFFF"
                 android:textSize="25dp"
@@ -93,8 +94,8 @@
                 android:id="@+id/gameover_submit_value"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:gravity="left" />
         </TableRow>
     </TableLayout>
 
