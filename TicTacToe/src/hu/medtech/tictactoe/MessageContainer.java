@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class MessageContainer implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public final static int MESSAGE_NEW_GAME = 1;

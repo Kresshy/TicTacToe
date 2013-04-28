@@ -11,7 +11,7 @@ public class GlobalVariables extends Application {
 	public void onCreate() {
 
 	}
-
+	
 	public ConnectionService getConnectionService() {
 		return mConnectionService;
 	}

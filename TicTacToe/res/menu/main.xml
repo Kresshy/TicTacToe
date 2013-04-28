@@ -5,11 +5,15 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Connect..."/>
-    
     <item
         android:id="@+id/menu_discoverable"
         android:orderInCategory="200"
         android:showAsAction="never"
         android:title="Discoverable"/>
+    <item
+        android:id="@+id/menu_disconnect"
+        android:orderInCategory="300"
+        android:showAsAction="never"
+        android:title="Disconnect"/>
 
 </menu>

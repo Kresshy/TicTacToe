@@ -1,7 +1,6 @@
 package hu.medtech.tictactoe;
 
 import hu.medtech.tictactoe.ConnectionService.State;
-import hu.medtech.tictactoe.datastorage.ScoreDbLoader;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,7 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
-import java.util.UUID;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -50,9 +48,6 @@ public class MainActivity extends Activity {
 	private static BluetoothAdapter mBluetoothAdapter;
 	private static BluetoothDevice mBluetoothDevice;
 
-	private static final UUID UUID_SECURE = UUID
-			.fromString("00001101-0000-1000-8000-00805F9B34FB");
-
 	public static String mConnectedDeviceName;
 	public static String DEVICE_NAME;
 
@@ -64,8 +59,7 @@ public class MainActivity extends Activity {
 	AlertDialog alert;
 	ProgressDialog progress;
 
-	public byte[] messageContainer2ByteArray(MessageContainer m)
-			throws IOException {
+	public byte[] messageContainer2ByteArray(MessageContainer m) throws IOException {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -83,22 +77,15 @@ public class MainActivity extends Activity {
 
 			case R.id.main_multiplayer:
 
-				if (((GlobalVariables) getApplication()).getConnectionService() != null
-						&& mBluetoothAdapter.isEnabled()) {
-					if (((GlobalVariables) getApplication())
-							.getConnectionService().getState() == State.connected) {
+				if (((GlobalVariables) getApplication()).getConnectionService() != null && mBluetoothAdapter.isEnabled()) {
+					if (((GlobalVariables) getApplication()).getConnectionService().getState() == State.connected) {
 
-						MessageContainer startGameMessage = new MessageContainer(
-								MessageContainer.MESSAGE_NEW_GAME, -1,
-								"player1");
+						MessageContainer startGameMessage = new MessageContainer(MessageContainer.MESSAGE_NEW_GAME, -1, "player1");
 
 						try {
 
-							((GlobalVariables) getApplication())
-									.getConnectionService()
-									.write(messageContainer2ByteArray(startGameMessage));
-							((GlobalVariables) getApplication())
-									.setSymbol(MessageContainer.MESSAGE_SYMBOL_X);
+							((GlobalVariables) getApplication()).getConnectionService().write(messageContainer2ByteArray(startGameMessage));
+							((GlobalVariables) getApplication()).setSymbol(MessageContainer.MESSAGE_SYMBOL_X);
 
 						} catch (IOException e1) {
 							e1.printStackTrace();
@@ -106,16 +93,14 @@ public class MainActivity extends Activity {
 
 					} else {
 
-						Intent startConnection = new Intent(
-								getApplicationContext(), DeviceConnect.class);
+						Intent startConnection = new Intent(getApplicationContext(), DeviceConnect.class);
 						startActivityForResult(startConnection, REQUEST_CONNECT);
 
 					}
 
 				} else {
 
-					Intent enableIntent = new Intent(
-							BluetoothAdapter.ACTION_REQUEST_ENABLE);
+					Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 					startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 
 				}
@@ -124,8 +109,7 @@ public class MainActivity extends Activity {
 
 			case R.id.main_highscore:
 
-				Intent highscore = new Intent(MainActivity.this,
-						HighScoreActivity.class);
+				Intent highscore = new Intent(MainActivity.this, HighScoreActivity.class);
 				startActivity(highscore);
 
 				break;
@@ -135,8 +119,7 @@ public class MainActivity extends Activity {
 				// Intent options = new Intent(MainActivity.this,
 				// OptionsActivity.class);
 				// startActivity(options);
-				Intent settingsActivity = new Intent(MainActivity.this,
-						PreferencesActivity.class);
+				Intent settingsActivity = new Intent(MainActivity.this, PreferencesActivity.class);
 				startActivity(settingsActivity);
 
 				break;
@@ -160,8 +143,7 @@ public class MainActivity extends Activity {
 		public void onReceive(Context context, Intent intent) {
 			if (D) {
 				if (mBluetoothAdapter.getState() == BluetoothAdapter.STATE_TURNING_ON) {
-					Log.v(TAG,
-							"RECEIVED BLUETOOTH STATE CHANGE: STATE_TURNING_ON");
+					Log.v(TAG, "RECEIVED BLUETOOTH STATE CHANGE: STATE_TURNING_ON");
 				}
 
 				if (mBluetoothAdapter.getState() == BluetoothAdapter.STATE_ON) {
@@ -170,10 +152,8 @@ public class MainActivity extends Activity {
 			}
 
 			if (mBluetoothAdapter.isEnabled()) {
-				((GlobalVariables) getApplication())
-						.setConnectionService(new ConnectionService(mHandler));
-				((GlobalVariables) getApplication()).getConnectionService()
-						.start();
+				((GlobalVariables) getApplication()).setConnectionService(new ConnectionService(mHandler));
+				((GlobalVariables) getApplication()).getConnectionService().start();
 			}
 		}
 
@@ -183,15 +163,14 @@ public class MainActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 		Log.v(TAG, "ONSTART");
+
 		if (!mBluetoothAdapter.isEnabled()) {
-			Intent enableIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 		}
 
 		if (((GlobalVariables) getApplication()).getConnectionService() != null) {
-			((GlobalVariables) getApplication()).getConnectionService()
-					.setHandler(mHandler);
+			((GlobalVariables) getApplication()).getConnectionService().setHandler(mHandler);
 		}
 
 	}
@@ -201,8 +180,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 
 		if (((GlobalVariables) getApplication()).getConnectionService() != null) {
-			((GlobalVariables) getApplication()).getConnectionService()
-					.setHandler(mHandler);
+			((GlobalVariables) getApplication()).getConnectionService().setHandler(mHandler);
 		}
 
 	}
@@ -218,18 +196,15 @@ public class MainActivity extends Activity {
 
 		// If the adapter is null, then Bluetooth is not supported
 		if (mBluetoothAdapter == null) {
-			Toast.makeText(this, "Bluetooth is not supported",
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Bluetooth is not supported", Toast.LENGTH_LONG).show();
 			finish();
 			return;
 		}
 
-		registerReceiver(bluetoothReceiver, new IntentFilter(
-				BluetoothAdapter.ACTION_STATE_CHANGED));
+		registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
 
 		if (mBluetoothAdapter.isEnabled()) {
-			((GlobalVariables) getApplication())
-					.setConnectionService(new ConnectionService(mHandler));
+			((GlobalVariables) getApplication()).setConnectionService(new ConnectionService(mHandler));
 			((GlobalVariables) getApplication()).getConnectionService().start();
 		}
 
@@ -240,15 +215,11 @@ public class MainActivity extends Activity {
 				switch (which) {
 				case DialogInterface.BUTTON_POSITIVE:
 
-					MessageContainer m = new MessageContainer(
-							MessageContainer.MESSAGE_EXIT, -1);
+					MessageContainer m = new MessageContainer(MessageContainer.MESSAGE_EXIT, -1);
 
 					try {
-						if (((GlobalVariables) getApplication())
-								.getConnectionService().getState() == State.connected) {
-							((GlobalVariables) getApplication())
-									.getConnectionService().write(
-											messageContainer2ByteArray(m));
+						if (((GlobalVariables) getApplication()).getConnectionService().getState() == State.connected) {
+							((GlobalVariables) getApplication()).getConnectionService().write(messageContainer2ByteArray(m));
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -265,9 +236,7 @@ public class MainActivity extends Activity {
 		};
 
 		AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
-		alt_bld.setMessage("Are you sure to want to quit?")
-				.setCancelable(false)
-				.setPositiveButton("Yes", dialogClickListener)
+		alt_bld.setMessage("Are you sure to want to quit?").setCancelable(false).setPositiveButton("Yes", dialogClickListener)
 				.setNegativeButton("No", dialogClickListener);
 		alert = alt_bld.create();
 		alert.setTitle("Are you sure?");
@@ -305,9 +274,7 @@ public class MainActivity extends Activity {
 				String message = (String) msg.obj;
 
 				if (message.contains("Connected"))
-					Toast.makeText(getApplicationContext(),
-							"Connected! Please start a new multiplayer game!",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Connected! Please start a new multiplayer game!", Toast.LENGTH_LONG).show();
 
 				if (progress != null) {
 					if (progress.isShowing()) {
@@ -322,37 +289,26 @@ public class MainActivity extends Activity {
 				try {
 
 					byte[] readBuf = (byte[]) msg.obj;
-					int paramInt = msg.arg1;
+					// int paramInt = msg.arg1;
 
-					ByteArrayInputStream bais = new ByteArrayInputStream(
-							readBuf);
+					ByteArrayInputStream bais = new ByteArrayInputStream(readBuf);
 					ObjectInputStream ois;
 					ois = new ObjectInputStream(bais);
 
-					MessageContainer readedMessage = (MessageContainer) ois
-							.readObject();
-					Log.i("MainActivity",
-							"Message NUM: " + readedMessage.getMessage());
+					MessageContainer readedMessage = (MessageContainer) ois.readObject();
+					Log.i("MainActivity", "Message NUM: " + readedMessage.getMessage());
 
 					switch (readedMessage.getMessage()) {
 
 					case MessageContainer.MESSAGE_NEW_GAME:
 
-						Log.i("MainActivity",
-								"MESSAGE_NEW_GAME received from: "
-										+ readedMessage.getName()
-										+ " sending ACK");
+						Log.i("MainActivity", "MESSAGE_NEW_GAME received from: " + readedMessage.getName() + " sending ACK");
 
-						MessageContainer ackNewGame = new MessageContainer(
-								MessageContainer.MESSAGE_ACK, -1, "player2");
-						((GlobalVariables) getApplication())
-								.getConnectionService().write(
-										messageContainer2ByteArray(ackNewGame));
-						((GlobalVariables) getApplication())
-								.setSymbol(MessageContainer.MESSAGE_SYMBOL_O);
+						MessageContainer ackNewGame = new MessageContainer(MessageContainer.MESSAGE_ACK, -1, "player2");
+						((GlobalVariables) getApplication()).getConnectionService().write(messageContainer2ByteArray(ackNewGame));
+						((GlobalVariables) getApplication()).setSymbol(MessageContainer.MESSAGE_SYMBOL_O);
 
-						Intent gameActivity = new Intent(
-								getApplicationContext(), GameActivity.class);
+						Intent gameActivity = new Intent(getApplicationContext(), GameActivity.class);
 						startActivity(gameActivity);
 
 						break;
@@ -362,12 +318,9 @@ public class MainActivity extends Activity {
 						Log.i("MainActivity", "MESSAGE_ACK received");
 
 						if (readedMessage.getCoords() == -1) {
-							Log.i("MainActivity",
-									"ACK for starting new Game with: "
-											+ readedMessage.getName());
+							Log.i("MainActivity", "ACK for starting new Game with: " + readedMessage.getName());
 
-							Intent ackGameActivity = new Intent(
-									getApplicationContext(), GameActivity.class);
+							Intent ackGameActivity = new Intent(getApplicationContext(), GameActivity.class);
 							startActivity(ackGameActivity);
 						}
 
@@ -375,12 +328,9 @@ public class MainActivity extends Activity {
 
 					case MessageContainer.MESSAGE_EXIT:
 
-						Log.i("MainActivity",
-								"Stop connection and accept new ones");
-						((GlobalVariables) getApplication())
-								.getConnectionService().stop();
-						((GlobalVariables) getApplication())
-								.getConnectionService().start();
+						Log.i("MainActivity", "Stop connection and accept new ones");
+						((GlobalVariables) getApplication()).getConnectionService().stop();
+						((GlobalVariables) getApplication()).getConnectionService().start();
 
 						break;
 
@@ -410,41 +360,32 @@ public class MainActivity extends Activity {
 		case REQUEST_CONNECT:
 
 			if (resultCode == RESULT_CANCELED) {
-				Toast.makeText(getApplicationContext(), "No device selected",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "No device selected", Toast.LENGTH_LONG).show();
 				break;
 			}
 
-			progress = ProgressDialog.show(this, "Please wait",
-					"Setting up connection...", true, true);
+			progress = ProgressDialog.show(this, "Please wait", "Setting up connection...", true, true);
 
-			String address = data
-					.getStringExtra(DeviceConnect.EXTRA_DEVICE_ADDRESS);
+			String address = data.getStringExtra(DeviceConnect.EXTRA_DEVICE_ADDRESS);
 			mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(address);
-			Log.i(TAG,
-					mBluetoothDevice.getName() + mBluetoothDevice.getAddress());
+			Log.i(TAG, mBluetoothDevice.getName() + mBluetoothDevice.getAddress());
 
-			((GlobalVariables) getApplication()).getConnectionService()
-					.connect(mBluetoothDevice);
+			((GlobalVariables) getApplication()).getConnectionService().connect(mBluetoothDevice);
 
 			break;
 
 		case REQUEST_ENABLE_BT:
 
 			if (resultCode == RESULT_CANCELED) {
-				Toast.makeText(getApplicationContext(),
-						"Cannot enable Bluetooth", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "Cannot enable Bluetooth", Toast.LENGTH_LONG).show();
 				break;
 			}
 
 			if (resultCode == RESULT_OK) {
-				Toast.makeText(getApplicationContext(), "Bluetooth is enabled",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "Bluetooth is enabled", Toast.LENGTH_LONG).show();
 
-				Intent discoverableIntent = new Intent(
-						BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-				discoverableIntent.putExtra(
-						BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+				Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+				discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 				startActivity(discoverableIntent);
 				break;
 			}
@@ -459,18 +400,22 @@ public class MainActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.menu_connect:
 
-			Intent startConnection = new Intent(getApplicationContext(),
-					DeviceConnect.class);
+			Intent startConnection = new Intent(getApplicationContext(), DeviceConnect.class);
 			startActivityForResult(startConnection, REQUEST_CONNECT);
 
 			break;
 
 		case R.id.menu_discoverable:
-			Intent discoverableIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-			discoverableIntent.putExtra(
-					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+			Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+			discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
 			startActivity(discoverableIntent);
+			break;
+
+		case R.id.menu_disconnect:
+
+			((GlobalVariables) getApplication()).getConnectionService().stop();
+			((GlobalVariables) getApplication()).getConnectionService().start();
+
 			break;
 
 		}

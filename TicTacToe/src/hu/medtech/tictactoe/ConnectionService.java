@@ -17,13 +17,13 @@ public class ConnectionService {
 	// Debugging
 	private static final String TAG = "ConnectionService";
 	private static final boolean D = true;
-	
+
 	public static enum State {
 		disconnected, connected, connecting
 	};
 
 	private State state = State.disconnected;
-	
+
 	private static BluetoothAdapter mBluetoothAdapter;
 	private static BluetoothServerSocket mBluetoothServerSocket;
 	private static BluetoothSocket mBluetoothSocket;
@@ -35,8 +35,7 @@ public class ConnectionService {
 	private Handler mHandler;
 
 	private static String NAME = "SIDUS";
-	private static final UUID MY_UUID = UUID
-			.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 	public ConnectionService(Handler handler) {
 		state = State.disconnected;
@@ -46,7 +45,7 @@ public class ConnectionService {
 		mBluetoothSocket = null;
 		mHandler = handler;
 	}
-	
+
 	public synchronized void setHandler(Handler handler) {
 		mHandler = handler;
 	}
@@ -78,7 +77,7 @@ public class ConnectionService {
 			if (D)
 				Log.d(TAG, "START AcceptThread");
 		}
-		
+
 		state = State.disconnected;
 
 	}
@@ -108,15 +107,14 @@ public class ConnectionService {
 		mConnectThread.start();
 		if (D)
 			Log.d(TAG, "START ConnectThread " + device);
-		
+
 		state = State.connecting;
 	}
 
 	public synchronized void connected(BluetoothSocket socket) {
 		if (D)
 			Log.d(TAG, "connected");
-		mHandler.obtainMessage(MainActivity.MESSAGE_TOAST, -1, -1, "Connected")
-				.sendToTarget();
+		mHandler.obtainMessage(MainActivity.MESSAGE_TOAST, -1, -1, "Connected").sendToTarget();
 		// Cancel the thread that completed the connection
 		// if (mConnectThread != null) {
 		// mConnectThread.cancel();
@@ -145,7 +143,7 @@ public class ConnectionService {
 		mConnectedThread.start();
 		if (D)
 			Log.d(TAG, "START ConnectedThread");
-		
+
 		state = State.connected;
 	}
 
@@ -173,7 +171,7 @@ public class ConnectionService {
 			if (D)
 				Log.d(TAG, "STOP AccceptThread");
 		}
-		
+
 		state = State.disconnected;
 	}
 
@@ -206,8 +204,7 @@ public class ConnectionService {
 			try {
 				// MY_UUID is the app's UUID string, also used by the client
 				// code
-				tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(
-						NAME, MY_UUID);
+				tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
 			} catch (IOException e) {
 				Log.e(TAG, "Accept Thread " + e.getMessage());
 			}
@@ -301,6 +298,7 @@ public class ConnectionService {
 			} catch (IOException e) {
 			}
 		}
+
 	}
 
 	private class ConnectedThread extends Thread {
@@ -345,8 +343,7 @@ public class ConnectionService {
 					bytes = mmInStream.read(buffer);
 
 					// Send the obtained bytes to the UI activity
-					mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes,
-							-1, buffer).sendToTarget();
+					mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
 
 					try {
 
@@ -369,6 +366,9 @@ public class ConnectionService {
 				mmOutStream.write(bytes);
 				Log.i(TAG, "WRITE_OK");
 			} catch (IOException e) {
+				// refActivity.get().startActivity(new
+				// Intent(refActivity.get().getApplicationContext(),
+				// MainActivity.class));
 				Log.e(TAG, "WRITE_FAIL " + e.getMessage());
 			}
 		}
