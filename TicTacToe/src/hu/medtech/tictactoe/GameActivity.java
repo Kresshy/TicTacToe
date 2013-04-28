@@ -192,7 +192,6 @@ public class GameActivity extends Activity {
 	public void onBackPressed() {
 
 		try {
-
 			MessageContainer m = new MessageContainer(
 					MessageContainer.MESSAGE_GAME_OVER, -1);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -203,7 +202,6 @@ public class GameActivity extends Activity {
 					baos.toByteArray());
 
 		} catch (IOException e) {
-
 			e.printStackTrace();
 		}
 
