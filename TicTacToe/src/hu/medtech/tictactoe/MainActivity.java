@@ -282,7 +282,7 @@ public class MainActivity extends Activity {
 				String message = (String) msg.obj;
 
 				if (message.contains("Connected"))
-					Toast.makeText(getApplicationContext(), "Connected!\nPlease start a new multiplayer game!", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Connected! Please start a new multiplayer game!", Toast.LENGTH_LONG).show();
 
 				if (progress != null) {
 					if (progress.isShowing()) {
