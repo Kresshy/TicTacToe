@@ -9,20 +9,35 @@ import java.io.StreamCorruptedException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.Toast;
 
 public class GameActivity extends Activity {
 
 	private final ImageAdapter imad = new ImageAdapter(this, this);
 	private GridView gridview;
+
+	MediaPlayer clickSound;
+
+	// ha a beallitasokban engedelyezve van, akkor hang lejatszasa
+	public void playClickSound() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(getBaseContext());
+		boolean sounds_pref = prefs.getBoolean("checkboxSounds", true);
+		if (sounds_pref == true) {
+			clickSound.start();
+		}
+	}
 
 	OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
@@ -31,6 +46,8 @@ public class GameActivity extends Activity {
 				long arg3) {
 			// place object if field is blank
 			if (imad.getElement(arg2) == R.drawable.field_blank) {
+				// play sound
+				playClickSound();
 				// create message
 				MessageContainer m = new MessageContainer();
 				m.setMessage(((GlobalVariables) getApplication()).getSymbol());
@@ -70,6 +87,8 @@ public class GameActivity extends Activity {
 		gridview = (GridView) findViewById(R.id.gamegridview);
 		gridview.setAdapter(imad);
 		gridview.setOnItemClickListener(onItemClickListener);
+
+		clickSound = MediaPlayer.create(getApplicationContext(), R.raw.click);
 
 	}
 
