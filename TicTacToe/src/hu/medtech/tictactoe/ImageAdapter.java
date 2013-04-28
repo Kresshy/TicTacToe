@@ -19,11 +19,11 @@ public class ImageAdapter extends BaseAdapter {
 	private List<Integer> mThumbIds = new ArrayList<Integer>();
 	private int[][] gameTableX = new int[10][14];
 	private int[][] gameTableO = new int[10][14];
-	
+
 	private WeakReference<Activity> activityRef;
 
-	private final int REQUEST_GAME_OVER_X = 101;
-	private final int REQUEST_GAME_OVER_O = 102;
+	public static final int REQUEST_GAME_OVER_X = 101;
+	public static final int REQUEST_GAME_OVER_O = 102;
 	public static final String MYGAMEOVERRESULT = "GAMEOVER";
 
 	public ImageAdapter(Context c, Activity a) {

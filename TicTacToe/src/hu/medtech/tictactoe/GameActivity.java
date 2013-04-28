@@ -27,7 +27,8 @@ public class GameActivity extends Activity {
 	OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
 			// place object if field is blank
 			if (imad.getElement(arg2) == R.drawable.field_blank) {
 				// create message
@@ -41,7 +42,8 @@ public class GameActivity extends Activity {
 					ObjectOutputStream oos;
 					oos = new ObjectOutputStream(baos);
 					oos.writeObject(m);
-					((GlobalVariables) getApplication()).getConnectionService().write(baos.toByteArray());
+					((GlobalVariables) getApplication()).getConnectionService()
+							.write(baos.toByteArray());
 					gridview.setOnItemClickListener(null);
 
 				} catch (IOException e) {
@@ -62,7 +64,8 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 
-		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
+		((GlobalVariables) getApplication()).getConnectionService().setHandler(
+				handler);
 
 		gridview = (GridView) findViewById(R.id.gamegridview);
 		gridview.setAdapter(imad);
@@ -71,15 +74,31 @@ public class GameActivity extends Activity {
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == ImageAdapter.REQUEST_GAME_OVER_O) {
+			Toast.makeText(getApplicationContext(), "OOOOOO",
+					Toast.LENGTH_SHORT).show();
+			this.finish();
+		}
+		if (requestCode == ImageAdapter.REQUEST_GAME_OVER_X) {
+			Toast.makeText(getApplicationContext(), "XXXXXX",
+					Toast.LENGTH_SHORT).show();
+			this.finish();
+		}
+	};
+
+	@Override
 	protected void onStart() {
 		super.onStart();
-		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
+		((GlobalVariables) getApplication()).getConnectionService().setHandler(
+				handler);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		((GlobalVariables) getApplication()).getConnectionService().setHandler(handler);
+		((GlobalVariables) getApplication()).getConnectionService().setHandler(
+				handler);
 	}
 
 	private final Handler handler = new Handler() {
@@ -97,12 +116,15 @@ public class GameActivity extends Activity {
 					byte[] readBuf = (byte[]) msg.obj;
 					int paramInt = msg.arg1;
 
-					ByteArrayInputStream bais = new ByteArrayInputStream(readBuf);
+					ByteArrayInputStream bais = new ByteArrayInputStream(
+							readBuf);
 					ObjectInputStream ois;
 					ois = new ObjectInputStream(bais);
 
-					MessageContainer readedMessage = (MessageContainer) ois.readObject();
-					Log.i("GameActivity", "Message NUM: " + readedMessage.getMessage());
+					MessageContainer readedMessage = (MessageContainer) ois
+							.readObject();
+					Log.i("GameActivity",
+							"Message NUM: " + readedMessage.getMessage());
 
 					switch (readedMessage.getMessage()) {
 
@@ -131,7 +153,9 @@ public class GameActivity extends Activity {
 					case MessageContainer.MESSAGE_GAME_OVER:
 
 						if (readedMessage.getCoords() == -1) {
-							Toast.makeText(getApplicationContext(), "You opponent has quit the game", Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(),
+									"You opponent has quit the game",
+									Toast.LENGTH_LONG).show();
 							finish();
 						}
 
@@ -169,12 +193,14 @@ public class GameActivity extends Activity {
 
 		try {
 
-			MessageContainer m = new MessageContainer(MessageContainer.MESSAGE_GAME_OVER, -1);
+			MessageContainer m = new MessageContainer(
+					MessageContainer.MESSAGE_GAME_OVER, -1);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ObjectOutputStream oos;
 			oos = new ObjectOutputStream(baos);
 			oos.writeObject(m);
-			((GlobalVariables) getApplication()).getConnectionService().write(baos.toByteArray());
+			((GlobalVariables) getApplication()).getConnectionService().write(
+					baos.toByteArray());
 
 		} catch (IOException e) {
 
