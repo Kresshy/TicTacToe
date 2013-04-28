@@ -1,11 +1,128 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <!-- <ImageView -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:src="@drawable/game_over" /> -->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:gravity="left"
+        android:paddingTop="10dp"
+        android:text="@string/gameoverdialogtitle"
+        android:textColor="#FFFFFF" />
 
-</RelativeLayout>
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="8dp"
+                android:text="@string/gameovertimelabel"
+                android:textColor="#FFFFFF"
+                android:textSize="25dp"
+                android:textStyle="italic"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/gameover_time_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="3dp"
+                android:textColor="#FFFFFF"
+                android:textSize="25dp"
+                android:textStyle="italic"
+                android:typeface="serif" />
+        </TableRow>
+
+        <!-- <TableRow> -->
+
+
+        <!-- <TextView -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:gravity="left" -->
+        <!-- android:paddingLeft="8dp" -->
+        <!-- android:text="@string/scorelabel" -->
+        <!-- android:textColor="#ffa200" -->
+        <!-- android:textSize="25dp" -->
+        <!-- android:textStyle="italic" -->
+        <!-- android:typeface="serif" /> -->
+
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/score_value" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:gravity="left" -->
+        <!-- android:paddingLeft="3dp" -->
+        <!-- android:textColor="#ffa200" -->
+        <!-- android:textSize="25dp" -->
+        <!-- android:textStyle="italic" -->
+        <!-- android:typeface="serif" /> -->
+        <!-- </TableRow> -->
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingLeft="8dp"
+                
+                android:text="@string/gameoversubmitlabel"
+                android:textColor="#FFFFFF"
+                android:textSize="25dp"
+                android:textStyle="italic"
+                android:typeface="serif" />
+
+            <EditText
+                android:id="@+id/gameover_submit_value"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginLeft="10dp" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <Button
+            android:id="@+id/gameover_btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="@string/gameoverbackbtn"
+            android:textSize="20dp" />
+
+        <!-- <Button -->
+        <!-- android:id="@+id/gameover_btn_newgame" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_weight="0.5" -->
+        <!-- android:gravity="center" -->
+        <!-- android:text="@string/gameovernewgamebtn" -->
+        <!-- android:textSize="20dp" /> -->
+    </LinearLayout>
+
+</LinearLayout>

@@ -46,6 +46,10 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
+            android:name=".PreferencesActivity"
+            android:label="@string/pref" >
+        </activity>
+        <activity
             android:name="hu.medtech.tictactoe.GameActivity"
             android:label="@string/title_activity_game"
             android:screenOrientation="sensorPortrait"
@@ -53,7 +57,7 @@
         </activity>
         <activity
             android:name="hu.medtech.tictactoe.GameOverDialog"
-            android:theme="@style/FullHeightDialog">
+            android:theme="@style/FullHeightDialog" >
         </activity>
     </application>
 

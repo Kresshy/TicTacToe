@@ -10,5 +10,23 @@
     <string name="title_activity_options">OptionsActivity</string>
     <string name="title_activity_game">GameActivity</string>
     <string name="title_activity_game_over_dialog">GameOverDialog</string>
+    <string name="pref">Preferences</string>
+
+    <!-- Game over dialog -->
+    <string name="gameoverdialogtitle">Game Over</string>
+    <string name="gameovertimelabel">Time: </string>
+    <string name="gameoversubmitlabel">Name: </string>
+    <string name="gameoverbackbtn">OK</string>
+    <string name="gameovernewgamebtn">New Game</string>
+
+    <!-- Preferences -->
+    <string name="pref_personal">Personal Data</string>
+    <string name="pref_name">Name</string>
+    <string name="pref_name_detalis">This name will be shown in highscores</string>
+    <string name="pref_sounds">Sounds</string>
+    <string name="pref_sounds_set">Sound in the game</string>
+    <string name="pref_database">Database</string>
+    <string name="pref_database_delete">Delete highscores</string>
+    <string name="pref_database_delete_details">Clear all items from the highscore database</string>
 
 </resources>
