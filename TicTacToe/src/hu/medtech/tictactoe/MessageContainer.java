@@ -26,6 +26,11 @@ public class MessageContainer implements Serializable {
 		this.setName("player1");
 	}
 	
+	public MessageContainer(int message, int coords) {
+		this.message = message;
+		this.coords = coords;
+	}
+	
 	public MessageContainer(int message, int coords, String name) {
 		this.message = message;
 		this.coords = coords;
